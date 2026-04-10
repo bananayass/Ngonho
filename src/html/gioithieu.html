@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngõ Nhỏ - Nền tảng chữa lành tâm hồn</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config={
+            theme:{
+                extend:{
+                    colors:{
+                        primary:'#6366f1',
+                        secondary:'#8b5cf6'
+                    },
+                    borderRadius:{
+                        'none':'0px',
+                        'sm':'4px',
+                        DEFAULT:'8px',
+                        'md':'12px',
+                        'lg':'16px',
+                        'xl':'20px',
+                        '2xl':'24px',
+                        '3xl':'32px',
+                        'full':'9999px',
+                        'button':'8px'
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(139, 92, 246, 0.3) 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .feature-icon {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: transform 0.3s ease;
+        }
+        .feature-icon:hover {
+            transform: scale(1.1);
+        }
+        .feature-card:hover {
+            transform: scale(1.02);
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+        .mood-icon {
+            transition: all 0.3s ease;
+        }
+        .mood-icon:hover {
+            transform: scale(1.1);
+        }
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .price-card {
+            transition: all 0.3s ease;
+        }
+        .price-card:hover {
+            transform: translateY(-10px);
+        }
+        .price-card.featured {
+            border: 2px solid #6366f1;
+        }
+        .expert-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #6366f1;
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+        }
+        .custom-checkbox:checked {
+            background-color: #6366f1;
+        }
+        .custom-checkbox:checked::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 6px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .custom-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .custom-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .switch-slider {
+            background-color: #6366f1;
+        }
+        input:checked + .switch-slider:before {
+            transform: translateX(24px);
+        }
+        .btn-scale {
+            transition: all 0.3s ease;
+        }
+        .btn-scale:hover {
+            transform: scale(1.05);
+            background-color: #585beb;
+        }
+        .btn-scale-outline:hover {
+            transform: scale(1.05);
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="#" class="font-['Pacifico'] text-primary text-2xl">Ngõ Nhỏ</a>
+                <nav class="hidden md:flex ml-10">
+                    <a href="#" class="px-4 py-2 font-medium hover:text-primary transition-colors">Trang chủ</a>
+                    <a href="#services" class="px-4 py-2 font-medium hover:text-primary transition-colors">Dịch vụ</a>
+                    <a href="#community" class="px-4 py-2 font-medium hover:text-primary transition-colors">Cộng đồng</a>
+                    <a href="#blog" class="px-4 py-2 font-medium hover:text-primary transition-colors">Blog</a>
+                    <a href="#shop" class="px-4 py-2 font-medium hover:text-primary transition-colors">Cửa hàng</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="relative hidden md:block">
+                    <input type="text" placeholder="Tìm kiếm..." class="pl-10 pr-4 py-2 rounded-full border border-gray-200 text-sm focus:border-primary">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400">
+                        <i class="ri-search-line"></i>
+                    </div>
+                </div>
+                <button class="px-5 py-2 bg-white text-primary border border-primary rounded-button btn-scale-outline hover:bg-gray-50 transition-colors whitespace-nowrap"><a href="signin.html">Đăng nhập</a></button>
+                <button class="px-5 py-2 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap"><a href="signup.html">Đăng ký</a></button>
+                <button class="md:hidden w-10 h-10 flex items-center justify-center">
+                    <i class="ri-menu-line text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section pt-24 pb-16 md:py-32" style="background-image: url('https://readdy.ai/api/search-image?query=serene%20landscape%20with%20soft%20lavender%20and%20green%20elements%2C%20peaceful%20nature%20scene%20with%20gentle%20flowing%20water%2C%20soft%20lighting%2C%20calming%20atmosphere%2C%20perfect%20for%20mental%20wellness%20and%20healing%2C%20high%20quality%20professional%20photography&width=1600&height=800&seq=hero123&orientation=landscape'); background-size: cover; background-position: center right;">
+        <div class="container mx-auto px-4 w-full">
+            <div class="hero-content max-w-2xl">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight text-primary">Chữa lành tâm hồn, nuôi dưỡng bình an nội tại</h1>
+                <p class="text-lg md:text-xl mb-8 text-gray-700">Nền tảng đồng hành cùng bạn trong hành trình khám phá, nuôi dưỡng và chữa lành những cảm xúc. Một không gian an toàn để bạn được là chính mình.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="px-6 py-3 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap text-base font-medium">Bắt đầu miễn phí</button>
+                    <button class="px-6 py-3 bg-white text-primary border border-primary rounded-button btn-scale-outline hover:bg-gray-50 transition-colors whitespace-nowrap text-base font-medium flex items-center justify-center">
+                        <i class="ri-play-circle-line mr-2 text-lg"></i>
+                        Xem giới thiệu
+                    </button>
+                </div>
+                <div class="mt-10 flex items-center gap-6">
+                    <div class="flex -space-x-2">
+                        <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20young%20woman%2C%20smiling%2C%20professional%20headshot%2C%20soft%20lighting&width=60&height=60&seq=user1&orientation=squarish" class="w-10 h-10 rounded-full border-2 border-white" alt="User">
+                        <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20young%20man%2C%20smiling%20professional%20headshot%2C%20soft%20lighting&width=60&height=60&seq=user2&orientation=squarish" class="w-10 h-10 rounded-full border-2 border-white" alt="User">
+                        <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20middle-aged%20woman%2C%20smiling%2C%20professional%20headshot%2C%20soft%20lighting&width=60&height=60&seq=user3&orientation=squarish" class="w-10 h-10 rounded-full border-2 border-white" alt="User">
+                    </div>
+                    <p class="text-sm text-gray-600">Hơn <span class="font-semibold">10,000+</span> người dùng đã tham gia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-cream">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Chức năng nổi bật</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Những công cụ và không gian được thiết kế đặc biệt để đồng hành cùng bạn trên hành trình chữa lành</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="w-14 h-14 bg-lavender bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="ri-mail-open-line text-2xl feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Hộp thư lắng nghe</h3>
+                    <p class="text-gray-600">Chia sẻ tâm sự một cách ẩn danh, được lắng nghe và đồng cảm mà không lo ngại phán xét.</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="w-14 h-14 bg-secondary bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="ri-chat-3-line text-2xl feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Phòng trò chuyện</h3>
+                    <p class="text-gray-600">Tham gia các phòng chat theo chủ đề, kết nối với những người có trải nghiệm tương tự.</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="w-14 h-14 bg-lightbrown bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="ri-emotion-line text-2xl feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Theo dõi cảm xúc</h3>
+                    <p class="text-gray-600">Ghi lại và theo dõi biến động tâm trạng hàng ngày, nhận diện mô hình cảm xúc của bản thân.</p>
+                </div>
+                
+                <!-- Feature 4 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="w-14 h-14 bg-lavender bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="ri-plant-line text-2xl feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Cây điều ước</h3>
+                    <p class="text-gray-600">Ghi lại những điều ước và niềm vui nhỏ mỗi ngày, xây dựng thói quen biết ơn và tích cực.</p>
+                </div>
+                
+                <!-- Feature 5 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="w-14 h-14 bg-secondary bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="ri-mail-send-line text-2xl feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Thư gửi chính mình</h3>
+                    <p class="text-gray-600">Viết thư cho bản thân trong tương lai, lưu giữ những suy nghĩ và cảm nhận quý giá.</p>
+                </div>
+                
+                <!-- Feature 6 -->
+                <div class="feature-card bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="w-14 h-14 bg-lightbrown bg-opacity-20 rounded-full flex items-center justify-center mb-4">
+                        <i class="ri-gallery-line text-2xl feature-icon"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Kho nội dung chữa lành</h3>
+                    <p class="text-gray-600">Truy cập bộ sưu tập âm thanh, hình ảnh và video được thiết kế để xoa dịu tâm hồn.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mood Tracker Demo -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold mb-6">Theo dõi cảm xúc hàng ngày</h2>
+                    <p class="text-gray-600 mb-8">Ghi lại tâm trạng của bạn mỗi ngày, nhận diện mô hình cảm xúc và hiểu rõ bản thân hơn. Với biểu đồ trực quan, bạn có thể dễ dàng theo dõi sự thay đổi cảm xúc theo thời gian.</p>
+                    
+                    <div class="mb-8">
+                        <p class="font-medium mb-3">Hôm nay bạn cảm thấy thế nào?</p>
+                        <div class="flex flex-wrap gap-4">
+                            <div class="mood-icon p-3 bg-white border border-gray-200 rounded-lg flex flex-col items-center cursor-pointer hover:border-primary">
+                                <div class="text-3xl mb-1">😊</div>
+                                <span class="text-sm">Vui vẻ</span>
+                            </div>
+                            <div class="mood-icon p-3 bg-white border border-gray-200 rounded-lg flex flex-col items-center cursor-pointer hover:border-primary">
+                                <div class="text-3xl mb-1">😌</div>
+                                <span class="text-sm">Bình yên</span>
+                            </div>
+                            <div class="mood-icon p-3 bg-white border border-gray-200 rounded-lg flex flex-col items-center cursor-pointer hover:border-primary">
+                                <div class="text-3xl mb-1">😐</div>
+                                <span class="text-sm">Bình thường</span>
+                            </div>
+                            <div class="mood-icon p-3 bg-white border border-gray-200 rounded-lg flex flex-col items-center cursor-pointer hover:border-primary">
+                                <div class="text-3xl mb-1">😔</div>
+                                <span class="text-sm">Buồn</span>
+                            </div>
+                            <div class="mood-icon p-3 bg-white border border-gray-200 rounded-lg flex flex-col items-center cursor-pointer hover:border-primary">
+                                <div class="text-3xl mb-1">😫</div>
+                                <span class="text-sm">Căng thẳng</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="px-6 py-3 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Xem thống kê đầy đủ</button>
+                </div>
+                
+                <div class="md:w-1/2 bg-white p-6 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="font-semibold">Biểu đồ cảm xúc tháng 6/2025</h3>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1 text-sm border border-gray-200 rounded-full btn-scale-outline hover:border-primary">Tuần</button>
+                            <button class="px-3 py-1 text-sm bg-primary text-white rounded-full btn-scale">Tháng</button>
+                        </div>
+                    </div>
+                    <div id="moodChart" class="w-full h-64"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="services" class="py-16 gradient-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Các gói dịch vụ</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Lựa chọn gói phù hợp với nhu cầu chữa lành của bạn</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <!-- Free Plan -->
+                <div class="price-card bg-white p-6 rounded-lg shadow-sm">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-2">Miễn phí</h3>
+                        <p class="text-gray-500 text-sm">Bắt đầu hành trình chữa lành</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold">0đ</span>
+                    </div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Tâm sự ẩn danh (Hộp thư lắng nghe)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Phòng trò chuyện theo chủ đề (giới hạn)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Theo dõi cảm xúc cơ bản</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Cây điều ước (1 điều ước/ngày)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Thư gửi chính mình</span>
+                        </li>
+                    </ul>
+                    <button class="w-full px-4 py-2 bg-white text-primary border border-primary rounded-button btn-scale-outline hover:bg-gray-50 transition-colors whitespace-nowrap">Bắt đầu ngay</button>
+                </div>
+                
+                <!-- Basic Plan -->
+                <div class="price-card bg-white p-6 rounded-lg shadow-sm">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-2">Cơ bản</h3>
+                        <p class="text-gray-500 text-sm">Trải nghiệm đầy đủ hơn</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold">49k</span>
+                        <span class="text-gray-500">/tháng</span>
+                    </div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Tất cả tính năng miễn phí</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Truy cập đầy đủ kho nội dung chữa lành</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Mood Tracker nâng cao (thống kê, biểu đồ)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Thư sửa chữa định kỳ</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Phòng trò chuyện không giới hạn</span>
+                        </li>
+                    </ul>
+                    <button class="w-full px-4 py-2 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Đăng ký ngay</button>
+                </div>
+                
+                <!-- Advanced Plan -->
+                <div class="price-card featured bg-white p-6 rounded-lg shadow-md">
+                    <div class="mb-1 flex justify-between items-start">
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2">Nâng cao</h3>
+                            <p class="text-gray-500 text-sm">Trải nghiệm chữa lành toàn diện</p>
+                        </div>
+                        <span class="bg-primary text-white text-xs px-2 py-1 rounded-full">Phổ biến</span>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold">99k</span>
+                        <span class="text-gray-500">/tháng</span>
+                        <p class="text-sm text-gray-500 mt-1">hoặc 499k/năm</p>
+                    </div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Tất cả tính năng cơ bản</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Thử nghiệm chữa lành (Gamification)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Khoá học mini đa dạng</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Truyện tranh và podcast độc quyền</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Ưu đãi sản phẩm chữa lành (10-20%)</span>
+                        </li>
+                    </ul>
+                    <button class="w-full px-4 py-2 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Đăng ký ngay</button>
+                </div>
+                
+                <!-- Student Plan -->
+                <div class="price-card bg-white p-6 rounded-lg shadow-sm">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-2">Học sinh/Sinh viên</h3>
+                        <p class="text-gray-500 text-sm">Dành cho các bạn đang đi học</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold">29k</span>
+                        <span class="text-gray-500">/tháng</span>
+                    </div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Tất cả tính năng cơ bản</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">1 khóa học mini miễn phí/tháng</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Giảm 20% khi mua sản phẩm</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Gợi ý bài tập chữa lành theo tuổi</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-gray-400 mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-information-line"></i>
+                            </div>
+                            <span class="text-sm text-gray-500">Yêu cầu xác minh thẻ sinh viên</span>
+                        </li>
+                    </ul>
+                    <button class="w-full px-4 py-2 bg-white text-primary border border-primary rounded-button btn-scale-outline hover:bg-gray-50 transition-colors whitespace-nowrap">Đăng ký ngay</button>
+                </div>
+                
+                <!-- Premium Plan -->
+                <div class="price-card bg-white p-6 rounded-lg shadow-sm">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-2">"Ngõ Nhỏ"</h3>
+                        <p class="text-gray-500 text-sm">Gói quà tặng đặc biệt</p>
+                    </div>
+                    <div class="mb-6">
+                        <span class="text-3xl font-bold">149k</span>
+                        <span class="text-gray-500">/tháng</span>
+                    </div>
+                    <ul class="mb-8 space-y-3">
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Tất cả tính năng nâng cao</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Lá thư viết tay hàng tháng</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">File âm thanh độc quyền</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Gói quà mini hàng tháng</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-2 mt-0.5 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-check-line"></i>
+                            </div>
+                            <span class="text-sm">Ưu tiên hẹn chuyên gia tư vấn</span>
+                        </li>
+                    </ul>
+                    <button class="w-full px-4 py-2 bg-white text-primary border border-primary rounded-button btn-scale-outline hover:bg-gray-50 transition-colors whitespace-nowrap">Đăng ký ngay</button>
+                </div>
+            </div>
+        </section>
+
+    <!-- Healing Content Section -->
+    <section id="shop" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Sản phẩm chữa lành</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Khám phá các sản phẩm được thiết kế đặc biệt để hỗ trợ hành trình chữa lành của bạn</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Product 1 -->
+                <div class="card-hover transition-all duration-300 bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=calming%20meditation%20book%20with%20soft%20pastel%20cover%2C%20peaceful%20design%2C%20high%20quality%20product%20photography%20on%20white%20background&width=500&height=300&seq=product1&orientation=landscape" class="w-full h-full object-cover object-top" alt="Sách chữa lành">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2">Sách "Hành trình chữa lành"</h3>
+                        <p class="text-gray-600 text-sm mb-3">Cuốn sách với những bài tập và hướng dẫn giúp bạn tìm lại sự bình yên nội tâm.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-primary">185.000đ</span>
+                            <button class="px-3 py-1.5 bg-primary text-white text-sm rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="card-hover transition-all duration-300 bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=premium%20noise%20cancelling%20headphones%20for%20meditation%2C%20soft%20pastel%20color%2C%20high%20quality%20product%20photography%20on%20white%20background&width=500&height=300&seq=product2&orientation=landscape" class="w-full h-full object-cover object-top" alt="Tai nghe thư giãn">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2">Tai nghe thư giãn cao cấp</h3>
+                        <p class="text-gray-600 text-sm mb-3">Tai nghe chống ồn, giúp bạn đắm chìm trong thế giới âm thanh chữa lành.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-primary">750.000đ</span>
+                            <button class="px-3 py-1.5 bg-primary text-white text-sm rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="card-hover transition-all duration-300 bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=beautiful%20stationery%20set%20with%20pastel%20colors%2C%20journal%20and%20pen%20for%20writing%20therapy%2C%20high%20quality%20product%20photography%20on%20white%20background&width=500&height=300&seq=product3&orientation=landscape" class="w-full h-full object-cover object-top" alt="Bộ giấy viết thư">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2">Bộ giấy viết thư "Ngõ Nhỏ"</h3>
+                        <p class="text-gray-600 text-sm mb-3">Bộ giấy viết thư cao cấp, giúp bạn ghi lại những cảm xúc và suy nghĩ của mình.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-primary">120.000đ</span>
+                            <button class="px-3 py-1.5 bg-primary text-white text-sm rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="card-hover transition-all duration-300 bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=aromatic%20candle%20set%20with%20essential%20oils%20for%20relaxation%2C%20soft%20pastel%20colors%2C%20high%20quality%20product%20photography%20on%20white%20background&width=500&height=300&seq=product4&orientation=landscape" class="w-full h-full object-cover object-top" alt="Bộ nến thơm">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold mb-2">Bộ nến thơm thiền định</h3>
+                        <p class="text-gray-600 text-sm mb-3">Bộ nến thơm với hương liệu thiên nhiên, giúp tạo không gian thư giãn và bình yên.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium text-primary">230.000đ</span>
+                            <button class="px-3 py-1.5 bg-primary text-white text-sm rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <button class="px-6 py-3 bg-white text-primary border border-primary rounded-button btn-scale-outline hover:bg-gray-50 transition-colors whitespace-nowrap">Xem thêm sản phẩm</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert Consultation -->
+    <section class="py-16 bg-cream">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Tư vấn chuyên gia</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Kết nối với các chuyên gia tâm lý được chứng nhận để nhận sự hỗ trợ chuyên sâu</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Expert 1 -->
+                <div class="expert-card bg-white rounded-lg overflow-hidden shadow-sm transition-all duration-300">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=professional%20vietnamese%20female%20psychologist%20in%20office%20setting%2C%20warm%20smile%2C%20professional%20attire%2C%20high%20quality%20portrait&width=500&height=400&seq=expert1&orientation=portrait" class="w-full h-full object-cover object-top" alt="Chuyên gia tâm lý">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-1">TS. Nguyễn Thị Minh Tâm</h3>
+                        <p class="text-primary text-sm mb-3">Chuyên gia tâm lý lâm sàng</p>
+                        <p class="text-gray-600 text-sm mb-4">Hơn 15 năm kinh nghiệm trong lĩnh vực tâm lý học lâm sàng, chuyên về rối loạn lo âu và trầm cảm.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">500.000đ/buổi</span>
+                            <button class="px-4 py-2 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Đặt lịch</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Expert 2 -->
+                <div class="expert-card bg-white rounded-lg overflow-hidden shadow-sm transition-all duration-300">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=professional%20vietnamese%20male%20psychologist%20in%20office%20setting%2C%20warm%20smile%2C%20professional%20attire%2C%20high%20quality%20portrait&width=500&height=400&seq=expert2&orientation=portrait" class="w-full h-full object-cover object-top" alt="Chuyên gia tâm lý">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-1">ThS. Trần Văn Minh</h3>
+                        <p class="text-primary text-sm mb-3">Nhà tâm lý học tư vấn</p>
+                        <p class="text-gray-600 text-sm mb-4">Chuyên gia tư vấn tâm lý với kinh nghiệm làm việc với thanh thiếu niên và các vấn đề về mối quan hệ.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">450.000đ/buổi</span>
+                            <button class="px-4 py-2 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Đặt lịch</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Expert 3 -->
+                <div class="expert-card bg-white rounded-lg overflow-hidden shadow-sm transition-all duration-300">
+                    <div class="h-64 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=professional%20vietnamese%20female%20psychologist%20with%20glasses%20in%20office%20setting%2C%20warm%20smile%2C%20professional%20attire%2C%20high%20quality%20portrait&width=500&height=400&seq=expert3&orientation=portrait" class="w-full h-full object-cover object-top" alt="Chuyên gia tâm lý">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg mb-1">PGS.TS. Lê Thị Hương</h3>
+                        <p class="text-primary text-sm mb-3">Chuyên gia tâm lý trị liệu</p>
+                        <p class="text-gray-600 text-sm mb-4">Chuyên về liệu pháp nhận thức hành vi (CBT) và các phương pháp trị liệu hiện đại cho stress mạn tính.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-medium">550.000đ/buổi</span>
+                            <button class="px-4 py-2 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Đặt lịch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Kiến thức chữa lành</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Khám phá các bài viết hữu ích về chăm sóc sức khỏe tinh thần và phương pháp chữa lành</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Blog 1 -->
+                <div class="card-hover transition-all duration-300 bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=person%20meditating%20in%20peaceful%20natural%20setting%2C%20morning%20light%2C%20serene%20atmosphere%2C%20high%20quality%20photography&width=600&height=300&seq=blog1&orientation=landscape" class="w-full h-full object-cover object-top" alt="Blog image">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="text-xs text-gray-500">02/06/2025</span>
+                            <span class="mx-2 text-gray-300">|</span>
+                            <span class="text-xs text-primary">Thiền định</span>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-3">5 bài tập thiền đơn giản cho người mới bắt đầu</h3>
+                        <p class="text-gray-600 text-sm mb-4">Khám phá các bài tập thiền đơn giản mà hiệu quả, giúp bạn bắt đầu hành trình thiền định ngay tại nhà...</p>
+                        <a href="#" class="text-primary font-medium text-sm flex items-center">
+                            Đọc tiếp
+                            <i class="ri-arrow-right-line ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Blog 2 -->
+                <div class="card-hover transition-all duration-300 bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=person%20writing%20in%20journal%20at%20cozy%20home%20setting%2C%20soft%20lighting%20,20peaceful%20atmosphere%2C%20high%20quality%20photography&width=600&height=300&seq=blog2&orientation=landscape" class="w-full h-full object-cover object-top" alt="Blog image">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="text-xs text-gray-500">30/05/2025</span>
+                            <span class="mx-2 text-gray-300">|</span>
+                            <span class="text-xs text-primary">Nhật ký</span>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-3">Sức mạnh chữa lành của việc viết nhật ký</h3>
+                        <p class="text-gray-600 text-sm mb-4">Viết nhật ký không chỉ là cách ghi lại kỷ niệm, mà còn là phương pháp chữa lành hiệu quả cho tâm hồn...</p>
+                        <a href="#" class="text-primary font-medium text-sm flex items-center">
+                            Đọc tiếp
+                            <i class="ri-arrow-right-line ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Blog 3 -->
+                <div class="card-hover transition-all duration-300 bg-white rounded-lg overflow-hidden shadow-sm">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://readdy.ai/api/search-image?query=person%20practicing%20yoga%20in%20morning%20light%20at%20home%2C%20peaceful%20atmosphere%2C%20mindfulness%20practice%2C%20high%20quality%20photography&width=600&height=300&seq=blog3&orientation=landscape" class="w-full h-full object-cover object-top" alt="Blog image">
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="text-xs text-gray-500">28/05/2025</span>
+                            <span class="mx-2 text-gray-300">|</span>
+                            <span class="text-xs text-primary">Tự chăm sóc</span>
+                        </div>
+                        <h3 class="font-semibold text-lg mb-3">Xây dựng thói quen tự chăm sóc bản thân mỗi ngày</h3>
+                        <p class="text-gray-600 text-sm mb-4">Những thói quen đơn giản nhưng hiệu quả giúp bạn chăm sóc sức khỏe tinh thần và cảm xúc mỗi ngày...</p>
+                        <a href="#" class="text-primary font-medium text-sm flex items-center">
+                            Đọc tiếp
+                            <i class="ri-arrow-right-line ml-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <button class="px-6 py-3 bg-white text-primary border border-primary rounded-button btn-scale-outline hover:bg-gray-50 transition-colors whitespace-nowrap">Xem thêm bài viết</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="py-16 gradient-bg">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Cộng đồng Ngõ Nhỏ</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Tham gia cộng đồng những người đang cùng nhau trên hành trình chữa lành</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Community Forum -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-lavender bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                            <i class="ri-discuss-line text-2xl text-primary"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Diễn đàn chia sẻ</h3>
+                            <p class="text-gray-600 text-sm">Nơi chia sẻ trải nghiệm và học hỏi từ cộng đồng</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-medium">Làm thế nào để vượt qua nỗi buồn sau chia tay?</h4>
+                                <span class="text-xs text-gray-500">32 bình luận</span>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="https://readdy.ai/api/search-image?query=portrait%20of%20young%20vietnamese%20woman%2C%20simple%20headshot&width=40&height=40&seq=forum1&orientation=squarish" class="w-6 h-6 rounded-full mr-2" alt="User">
+                                <span class="text-xs text-gray-500">Ngọc Anh • 1 giờ trước</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-medium">Chia sẻ về trải nghiệm thiền định 30 ngày</h4>
+                                <span class="text-xs text-gray-500">18 bình luận</span>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20man%20in%2030s%2C%20simple%20headshot&width=40&height=40&seq=forum2&orientation=squarish" class="w-6 h-6 rounded-full mr-2" alt="User">
+                                <span class="text-xs text-gray-500">Minh Tuấn • 3 giờ trước</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-medium">Cách đối phó với áp lực công việc quá tải</h4>
+                                <span class="text-xs text-gray-500">27 bình luận</span>
+                            </div>
+                            <div class="flex items-center">
+                                <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20woman%20in%2040s%2C%20simple%20headshot&width=40&height=40&seq=forum3&orientation=squarish" class="w-6 h-6 rounded-full mr-2" alt="User">
+                                <span class="text-xs text-gray-500">Thu Hà • 5 giờ trước</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full px-4 py-2 bg-white text-primary border border-primary rounded-button btn-scale-outline hover:bg-gray-50 transition-colors whitespace-nowrap">Tham gia diễn đàn</button>
+                </div>
+                
+                <!-- Talk Rooms -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-secondary bg-opacity-20 rounded-full flex items-center justify-center mr-4">
+                            <i class="ri-chat-smile-3-line text-2xl text-primary"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Phòng trò chuyện</h3>
+                            <p class="text-gray-600 text-sm">Kết nối và trò chuyện theo chủ đề bạn quan tâm</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors cursor-pointer">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-medium">Vượt qua nỗi sợ và lo âu</h4>
+                                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Đang hoạt động</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex -space-x-2">
+                                    <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20young%20woman%2C%20simple%20headshot&width=40&height=40&seq=chat1&orientation=squarish" class="w-6 h-6 rounded-full border border-white" alt="User">
+                                    <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20young%20man%2C%20simple%20headshot&width=40&height=40&seq=chat2&orientation=squarish" class="w-6 h-6 rounded-full border border-white" alt="User">
+                                    <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20woman%20in%2030s%2C%20simple%20headshot&width=40&height=40&seq=chat3&orientation=squarish" class="w-6 h-6 rounded-full border border-white" alt="User">
+                                </div>
+                                <span class="text-xs text-gray-500">42 người tham gia</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors cursor-pointer">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-medium">Nuôi dưỡng lòng biết ơn mỗi ngày</h4>
+                                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Đang hoạt động</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex -space-x-2">
+                                    <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20woman%20in%2020s%2C%20simple%20headshot&width=40&height=40&seq=chat4&orientation=squarish" class="w-6 h-6 rounded-full border border-white" alt="User">
+                                    <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20man%20in%2040s%2C%20simple%20headshot&width=40&height=40&seq=chat5&orientation=squarish" class="w-6 h-6 rounded-full border border-white" alt="User">
+                                </div>
+                                <span class="text-xs text-gray-500">28 người tham gia</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-100 rounded-lg p-4 hover:border-primary transition-colors cursor-pointer">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-medium">Tâm sự tuổi học trò</h4>
+                                <span class="bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Đang hoạt động</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex -space-x-2">
+                                    <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20teenager%2C%20simple%20headshot&width=40&height=40&seq=chat6&orientation=squarish" class="w-6 h-6 rounded-full border border-white" alt="User">
+                                    <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20teenage%20girl%2C%20simple%20headshot&width=40&height=40&seq=chat7&orientation=squarish" class="w-6 h-6 rounded-full border border-white" alt="User">
+                                    <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20young%20man%2C%20simple%20headshot&width=40&height=40&seq=chat8&orientation=squarish" class="w-6 h-6 rounded-full border border-white" alt="User">
+                                </div>
+                                <span class="text-xs text-gray-500">35 người tham gia</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full px-4 py-2 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Tham gia trò chuyện</button>
+                </div>
+            </div>
+        </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold mb-4">Người dùng nói gì về Ngõ Nhỏ</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Những chia sẻ chân thành từ cộng đồng người dùng</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20young%20woman%20smiling%2C%20natural%20lighting%2C%20simple%20background&width=100&height=100&seq=testi1&orientation=squarish" class="w-12 h-12 rounded-full mr-4" alt="User">
+                        <div>
+                            <h4 class="font-semibold">Phương Linh</h4>
+                            <p class="text-gray-500 text-sm">Giáo viên, 28 tuổi</p>
+                        </div>
+                    </div>
+                    <div class="mb-4 text-yellow-400 flex">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <p class="text-gray-600">"Ngõ Nhỏ đã giúp tôi vượt qua giai đoạn khó khăn sau khi chuyển công việc. Các bài thiền hướng dẫn và cộng đồng ở đây thực sự là nguồn động viên lớn với tôi mỗi ngày."</p>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20man%20in%2030s%20smiling%2C%20natural%20lighting%2C%20simple%20background&width=100&height=100&seq=testi2&orientation=squarish" class="w-12 h-12 rounded-full mr-4" alt="User">
+                        <div>
+                            <h4 class="font-semibold">Quang Huy</h4>
+                            <p class="text-gray-500 text-sm">Kỹ sư IT, 32 tuổi</p>
+                        </div>
+                    </div>
+                    <div class="mb-4 text-yellow-400 flex">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-half-fill"></i>
+                    </div>
+                    <p class="text-gray-600">"Mood Tracker đã giúp tôi nhận ra mô hình cảm xúc của mình và những yếu tố ảnh hưởng. Nhờ đó, tôi đã có thể điều chỉnh lối sống để cải thiện sức khỏe tinh thần rõ rệt."</p>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <img src="https://readdy.ai/api/search-image?query=portrait%20of%20vietnamese%20woman%20in%2040s%20smiling%2C%20natural%20lighting%2C%20simple%20background&width=100&height=100&seq=testi3&orientation=squarish" class="w-12 h-12 rounded-full mr-4" alt="User">
+                        <div>
+                            <h4 class="font-semibold">Thanh Hương</h4>
+                            <p class="text-gray-500 text-sm">Nhân viên văn phòng, 41 tuổi</p>
+                        </div>
+                    </div>
+                    <div class="mb-4 text-yellow-400 flex">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <p class="text-gray-600">"Tôi đã thử nhiều ứng dụng chữa lành khác nhau, nhưng Ngõ Nhỏ thực sự khác biệt với cộng đồng hỗ trợ và nội dung chất lượng. Gói 'Ngõ Nhỏ' với những món quà nhỏ hàng tháng thực sự làm tôi xúc động."</p>
+                </div>
+            </div>
+        </section>
+
+    <!-- Newsletter -->
+    <section class="py-16 bg-cream">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-4">Nhận thông tin chữa lành hàng tuần</h2>
+                <p class="text-gray-600 mb-8">Đăng ký nhận bản tin với những bài viết, hoạt động và lời khuyên chữa lành mới nhất</p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                    <input type="email" placeholder="Email của bạn" class="flex-1 px-4 py-3 rounded-lg border-none focus:ring-2 focus:ring-primary">
+                    <button class="px-6 py-3 bg-primary text-white rounded-button btn-scale hover:bg-opacity-90 transition-colors whitespace-nowrap">Đăng ký</button>
+                </div>
+                
+                <div class="mt-4 flex items-center justify-center">
+                    <input type="checkbox" id="privacy" class="custom-checkbox">
+                    <label for="privacy" class="text-sm text-gray-600 ml-2">Tôi đồng ý với <a href="#" class="text-primary">chính sách bảo mật</a> của Ngõ Nhỏ</label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white pt-16 pb-8 border-t border-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                <!-- Company Info -->
+                <div>
+                    <a href="#" class="font-['Pacifico'] text-primary text-2xl mb-4 inline-block">Ngõ Nhỏ</a>
+                    <p class="text-gray-600 mb-6">Nền tảng đồng hành cùng bạn trong hành trình chữa lành và nuôi dưỡng bình an nội tại.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                            <i class="ri-youtube-fill"></i>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 hover:bg-primary hover:text-white transition-colors">
+                            <i class="ri-tiktok-fill"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">Liên kết nhanh</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Về chúng tôi</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Dịch vụ</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Cộng đồng</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Cửa hàng</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">Hỗ trợ</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Trung tâm trợ giúp</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Câu hỏi thường gặp</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Chính sách bảo mật</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Điều khoản sử dụng</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-primary transition-colors">Liên hệ</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h3 class="font-semibold text-lg mb-4">Liên hệ</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <div class="text-primary mr-3 mt-1 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span class="text-gray-600">123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-3 mt-1 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-mail-line"></i>
+                            </div>
+                            <span class="text-gray-600">info@taman.vn</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="text-primary mr-3 mt-1 w-5 h-5 flex items-center justify-center">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            <span class="text-gray-600">+84 28 1234 5678</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">© 2025 Ngõ Nhỏ. Tất cả quyền được bảo lưu.</p>
+                <div class="flex space-x-4">

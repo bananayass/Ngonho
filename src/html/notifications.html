@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thông báo | Ngõ nhỏ</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <link rel="stylesheet" href="../css/styles.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#6366f1",
+              secondary: "#8b5cf6",
+            },
+            fontFamily: {
+              nunito: ["Nunito", "sans-serif"],
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        font-family: "Nunito", sans-serif;
+      }
+
+      .glass {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .notification-item {
+        transition: all 0.2s ease;
+      }
+
+      .notification-item:hover {
+        background: rgba(99, 102, 241, 0.05);
+        transform: translateX(4px);
+      }
+
+      .notification-item.unread {
+        background: rgba(99, 102, 241, 0.08);
+        border-left: 3px solid primary;
+      }
+
+      .tab-active {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+
+      .notification-type-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-gray-50 via-primary/5 to-secondary/5 min-h-screen">
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="glass shadow-sm sticky top-0 z-50">
+        <div class="flex items-center justify-between px-4 py-2">
+          <div class="flex items-center">
+            <a href="main.html" class="text-2xl font-['Pacifico'] text-primary mr-8">Ngõ Nhỏ</a>
+            <div class="relative hidden md:block">
+              <input type="text" placeholder="Tìm kiếm..." class="pl-10 pr-4 py-2 bg-gray-100 rounded-full w-80 focus:outline-none focus:ring-2 focus:ring-primary text-sm" />
+              <div class="absolute left-3 top-2.5 w-5 h-5 flex items-center justify-center text-gray-500">
+                <i class="ri-search-line"></i>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <!-- Notifications - Active -->
+            <a href="notifications.html" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center relative cursor-pointer hover:bg-primary/20 transition-all">
+              <i class="ri-notification-3-fill text-primary"></i>
+              <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">3</span>
+            </a>
+            <!-- Messages -->
+            <a href="dm.html" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer hover:bg-primary/10 hover:text-primary transition-all">
+              <i class="ri-message-3-line text-gray-600"></i>
+            </a>
+            <!-- Settings -->
+            <a href="settings.html" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer hover:bg-primary/10 hover:text-primary transition-all">
+              <i class="ri-settings-4-line text-gray-600"></i>
+            </a>
+            <!-- User Avatar -->
+            <div class="flex items-center cursor-pointer">
+              <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474092CAT/anh-avatar-chill-lofi-dep_021444026.jpg" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/30" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <div class="flex-1 flex">
+        <!-- Left Sidebar -->
+        <div class="w-64 bg-white shadow-sm p-4 hidden lg:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide">
+          <nav class="space-y-1">
+            <a href="main.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-home-5-line"></i></div><span class="font-semibold">Trang chủ</span>
+            </a>
+            <a href="messages.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-mail-lock-line"></i></div><span class="font-semibold">Tâm sự ẩn danh</span>
+            </a>
+            <a href="chatroom.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-chat-3-line"></i></div><span class="font-semibold">Phòng trò chuyện</span>
+            </a>
+            <a href="mTrack.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-emotion-line"></i></div><span class="font-semibold">Mood Tracker</span>
+            </a>
+            <a href="khoND.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-book-open-line"></i></div><span class="font-semibold">Kho nội dung</span>
+            </a>
+            <a href="challenges.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-trophy-line"></i></div><span class="font-semibold">Thử thách</span>
+            </a>
+            <a href="futureme.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-mail-line"></i></div><span class="font-semibold">Hộp thư lắng nghe</span>
+            </a>
+            <a href="podcast.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-headphone-line"></i></div><span class="font-semibold">Podcast</span>
+            </a>
+            <a href="wishtree.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-plant-line"></i></div><span class="font-semibold">Cây điều ước</span>
+            </a>
+          </nav>
+          <div class="mt-8">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">Phòng chat phổ biến</h3>
+            <div class="space-y-1">
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span><span class="font-semibold">Trầm cảm</span><span class="ml-auto text-xs text-gray-500">24</span>
+              </a>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span><span class="font-semibold">Áp lực học tập</span><span class="ml-auto text-xs text-gray-500">18</span>
+              </a>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span><span class="font-semibold">Mất ngủ</span><span class="ml-auto text-xs text-gray-500">9</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 max-w-3xl mx-auto px-4 py-6">
+          <!-- Breadcrumb -->
+          <div class="flex items-center text-sm text-gray-500 mb-6">
+            <a href="main.html" class="hover:text-primary transition-colors font-semibold">Trang chủ</a>
+            <i class="ri-arrow-right-s-line mx-2"></i>
+            <span class="text-primary font-semibold">Thông báo</span>
+          </div>
+
+          <!-- Page Header -->
+          <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+            <h1 class="text-2xl font-extrabold text-gray-800 mb-2">
+              <i class="ri-notification-3-fill text-primary mr-2"></i>Thông báo
+            </h1>
+            <p class="text-gray-600">Cập nhật hoạt động và tin nhắn mới nhất</p>
+          </div>
+
+          <!-- Tabs -->
+          <div class="bg-white rounded-2xl shadow-sm p-2 mb-6 flex gap-2">
+            <button class="flex-1 py-3 px-4 rounded-xl font-semibold tab-active" id="tabAll">
+              <i class="ri-stack-line mr-2"></i>Tất cả
+            </button>
+            <button class="flex-1 py-3 px-4 rounded-xl font-semibold text-gray-600 hover:bg-gray-100 transition-all" id="tabUnread">
+              <i class="ri-mail-open-line mr-2"></i>Chưa đọc
+              <span class="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">3</span>
+            </button>
+            <button class="flex-1 py-3 px-4 rounded-xl font-semibold text-gray-600 hover:bg-gray-100 transition-all" id="tabMentions">
+              <i class="ri-at-line mr-2"></i>Nhắc đến
+            </button>
+          </div>
+
+          <!-- Notifications List -->
+          <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div class="p-4 border-b border-gray-100 flex items-center justify-between">
+              <span class="text-sm text-gray-500 font-medium">Hôm nay</span>
+              <button class="text-sm text-primary font-semibold hover:underline">Đánh dấu đã đọc tất cả</button>
+            </div>
+
+            <!-- Notification Items -->
+            <div id="notificationsList" class="divide-y divide-gray-100">
+              <!-- Unread Notification 1 -->
+              <div class="notification-item unread p-4 cursor-pointer">
+                <div class="flex items-start gap-4">
+                  <div class="notification-type-icon bg-primary/10 text-primary">
+                    <i class="ri-heart-fill text-xl"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-gray-800 font-medium">
+                      <span class="font-bold text-primary">Lê Hoàng Minh</span> đã thích tâm sự của bạn
+                    </p>
+                    <p class="text-gray-500 text-sm mt-1">"Mong tất cả mọi người đều tìm được bình yên..."</p>
+                    <div class="flex items-center mt-2 text-xs text-gray-400">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>5 phút trước</span>
+                    </div>
+                  </div>
+                  <div class="w-2 h-2 bg-primary rounded-full"></div>
+                </div>
+              </div>
+
+              <!-- Unread Notification 2 -->
+              <div class="notification-item unread p-4 cursor-pointer">
+                <div class="flex items-start gap-4">
+                  <div class="notification-type-icon bg-green-100 text-green-600">
+                    <i class="ri-chat-3-fill text-xl"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-gray-800 font-medium">
+                      <span class="font-bold text-green-600">Phòng trò chuyện Trầm cảm</span> có tin nhắn mới
+                    </p>
+                    <p class="text-gray-500 text-sm mt-1">Người dùng ẩn danh: "Mình hiểu cảm giác đó..."</p>
+                    <div class="flex items-center mt-2 text-xs text-gray-400">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>15 phút trước</span>
+                    </div>
+                  </div>
+                  <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                </div>
+              </div>
+
+              <!-- Unread Notification 3 -->
+              <div class="notification-item unread p-4 cursor-pointer">
+                <div class="flex items-start gap-4">
+                  <div class="notification-type-icon bg-yellow-100 text-yellow-600">
+                    <i class="ri-trophy-fill text-xl"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-gray-800 font-medium">
+                      Chúc mừng! Bạn đã hoàn thành <span class="font-bold text-yellow-600">7 ngày viết nhật ký</span>
+                    </p>
+                    <p class="text-gray-500 text-sm mt-1">Tiếp tục duy trì thói quen tốt nhé!</p>
+                    <div class="flex items-center mt-2 text-xs text-gray-400">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>1 giờ trước</span>
+                    </div>
+                  </div>
+                  <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                </div>
+              </div>
+
+              <!-- Read Notification 4 -->
+              <div class="notification-item p-4 cursor-pointer">
+                <div class="flex items-start gap-4">
+                  <div class="notification-type-icon bg-purple-100 text-purple-600">
+                    <i class="ri-user-follow-fill text-xl"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-gray-800 font-medium">
+                      <span class="font-bold text-purple-600">Nguyễn Thị Mai</span> đã theo dõi bạn
+                    </p>
+                    <div class="flex items-center mt-2 text-xs text-gray-400">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>3 giờ trước</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Read Notification 5 -->
+              <div class="notification-item p-4 cursor-pointer">
+                <div class="flex items-start gap-4">
+                  <div class="notification-type-icon bg-pink-100 text-pink-600">
+                    <i class="ri-heart-heart-fill text-xl"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-gray-800 font-medium">
+                      <span class="font-bold text-pink-600">Trần Văn Đức</span> đã thích tâm sự của bạn
+                    </p>
+                    <p class="text-gray-500 text-sm mt-1">"Hy vọng mình có thể vượt qua kỳ thi..."</p>
+                    <div class="flex items-center mt-2 text-xs text-gray-400">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>5 giờ trước</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Read Notification 6 -->
+              <div class="notification-item p-4 cursor-pointer">
+                <div class="flex items-start gap-4">
+                  <div class="notification-type-icon bg-blue-100 text-blue-600">
+                    <i class="ri-mail-star-fill text-xl"></i>
+                  </div>
+                  <div class="flex-1">
+                    <p class="text-gray-800 font-medium">
+                      Bạn có thư mới từ <span class="font-bold text-blue-600">Hộp thư lắng nghe</span>
+                    </p>
+                    <p class="text-gray-500 text-sm mt-1">Người ẩn danh đã gửi lời động viên đến bạn</p>
+                    <div class="flex items-center mt-2 text-xs text-gray-400">
+                      <i class="ri-time-line mr-1"></i>
+                      <span>1 ngày trước</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Load More -->
+            <div class="p-4 text-center">
+              <button class="text-primary font-semibold hover:underline">
+                <i class="ri-loader-4-line mr-1"></i>Xem thêm thông báo
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="w-80 p-4 hidden xl:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide">
+          <!-- Quick Actions -->
+          <div class="bg-white rounded-2xl shadow-sm p-4 mb-6">
+            <h3 class="font-extrabold text-gray-800 mb-4">Thao tác nhanh</h3>
+            <div class="space-y-2">
+              <a href="dm.html" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-all cursor-pointer">
+                <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <i class="ri-message-3-line"></i>
+                </div>
+                <div>
+                  <p class="font-semibold text-gray-800">Tin nhắn mới</p>
+                  <p class="text-xs text-gray-500">Nhắn tin cho người dùng khác</p>
+                </div>
+              </a>
+              <a href="futureme.html" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-all cursor-pointer">
+                <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600">
+                  <i class="ri-mail-send-line"></i>
+                </div>
+                <div>
+                  <p class="font-semibold text-gray-800">Viết thư cho tương lai</p>
+                  <p class="text-xs text-gray-500">Lưu giữ suy nghĩ quý giá</p>
+                </div>
+              </a>
+              <a href="challenges.html" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-all cursor-pointer">
+                <div class="w-10 h-10 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-600">
+                  <i class="ri-trophy-line"></i>
+                </div>
+                <div>
+                  <p class="font-semibold text-gray-800">Tham gia thử thách</p>
+                  <p class="text-xs text-gray-500">Rèn luyện thói quen tốt</p>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Notification Settings -->
+          <div class="bg-white rounded-2xl shadow-sm p-4">
+            <h3 class="font-extrabold text-gray-800 mb-4">Cài đặt thông báo</h3>
+            <div class="space-y-3">
+              <label class="flex items-center justify-between cursor-pointer">
+                <span class="font-medium text-gray-700">Thông báo lời nhắn</span>
+                <input type="checkbox" checked class="w-5 h-5 text-primary rounded focus:ring-primary" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span class="font-medium text-gray-700">Thông báo thích</span>
+                <input type="checkbox" checked class="w-5 h-5 text-primary rounded focus:ring-primary" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span class="font-medium text-gray-700">Nhắc viết nhật ký</span>
+                <input type="checkbox" checked class="w-5 h-5 text-primary rounded focus:ring-primary" />
+              </label>
+              <label class="flex items-center justify-between cursor-pointer">
+                <span class="font-medium text-gray-700">Cập nhật thử thách</span>
+                <input type="checkbox" checked class="w-5 h-5 text-primary rounded focus:ring-primary" />
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency Support Button -->
+      <div class="fixed bottom-6 right-6 z-50">
+        <button class="bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform">
+          <i class="ri-phone-line text-xl"></i>
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

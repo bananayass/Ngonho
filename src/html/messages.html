@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tâm sự ẩn danh</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: "#6366f1", secondary: "#8b5cf6" },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-slide-up { animation: slideUp 0.4s ease-out forwards; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 via-white to-gray-100 min-h-screen">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-white/80 backdrop-blur-sm shadow-sm sticky top-0 z-50 border-b border-gray-100">
+            <div class="flex items-center justify-between px-4 py-2">
+                <div class="flex items-center">
+                    <a href="main.html" class="text-2xl font-['Pacifico'] text-primary mr-8">Ngõ Nhỏ</a>
+                    <div class="relative hidden md:block">
+                        <input type="text" placeholder="Tìm kiếm..." class="pl-10 pr-4 py-2 bg-gray-100/80 rounded-full w-80 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:bg-white text-sm transition-all" />
+                        <div class="absolute left-3 top-2.5 w-5 h-5 flex items-center justify-center text-gray-500 icon-hover">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a href="notifications.html" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center relative cursor-pointer icon-hover hover:bg-primary/10 hover:text-primary transition-all">
+                        <i class="ri-notification-3-line text-gray-600"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </a>
+                    <a href="dm.html" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer icon-hover hover:bg-primary/10 hover:text-primary transition-all">
+                        <i class="ri-message-3-line text-gray-600"></i>
+                    </a>
+                    <a href="settings.html" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer icon-hover hover:bg-primary/10 hover:text-primary transition-all">
+                        <i class="ri-settings-4-line text-gray-600"></i>
+                    </a>
+                    <div class="flex items-center cursor-pointer icon-hover">
+                        <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474092CAT/anh-avatar-chill-lofi-dep_021444026.jpg" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/20" />
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content -->
+        <div class="flex-1 flex">
+            <!-- Left Sidebar -->
+            <div class="w-64 bg-white/80 backdrop-blur-sm shadow-sm p-4 hidden lg:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide border-r border-gray-100">
+                <nav class="space-y-1">
+                    <a href="main.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary/5 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-home-5-line"></i></div><span>Trang chủ</span>
+                    </a>
+                    <a href="messages.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg bg-gradient-to-r from-primary/10 to-secondary/10 text-primary font-medium">
+                        <div class="w-6 h-6 flex items-center justify-center"><i class="ri-mail-lock-line"></i></div><span>Tâm sự ẩn danh</span>
+                    </a>
+                    <a href="chatroom.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary/5 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-chat-3-line"></i></div><span>Phòng trò chuyện</span>
+                    </a>
+                    <a href="mTrack.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary/5 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-emotion-line"></i></div><span>Mood Tracker</span>
+                    </a>
+                    <a href="khoND.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary/5 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-book-open-line"></i></div><span>Kho nội dung</span>
+                    </a>
+                    <a href="challenges.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary/5 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-trophy-line"></i></div><span>Thử thách</span>
+                    </a>
+                    <a href="futureme.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary/5 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-mail-line"></i></div><span>Hộp thư lắng nghe</span>
+                    </a>
+                    <a href="podcast.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary/5 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-headphone-line"></i></div><span>Podcast</span>
+                    </a>
+                    <a href="wishtree.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-primary/5 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-plant-line"></i></div><span>Cây điều ước</span>
+                    </a>
+                </nav>
+                <div class="mt-8">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">Phòng chat phổ biến</h3>
+                    <div class="space-y-1">
+                        <a href="#" class="group flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-primary/5 transition-all">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm text-gray-700 group-hover:text-primary transition-colors">Trầm cảm</span>
+                            </div>
+                            <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full group-hover:bg-primary/10 group-hover:text-primary transition-colors">24</span>
+                        </a>
+                        <a href="#" class="group flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-primary/5 transition-all">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm text-gray-700 group-hover:text-primary transition-colors">Áp lực học tập</span>
+                            </div>
+                            <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full group-hover:bg-primary/10 group-hover:text-primary transition-colors">18</span>
+                        </a>
+                        <a href="#" class="group flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-primary/5 transition-all">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm text-gray-700 group-hover:text-primary transition-colors">Mất ngủ</span>
+                            </div>
+                            <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full group-hover:bg-primary/10 group-hover:text-primary transition-colors">9</span>
+                        </a>
+                        <a href="#" class="group flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-primary/5 transition-all">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm text-gray-700 group-hover:text-primary transition-colors">Gia đình</span>
+                            </div>
+                            <span class="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded-full group-hover:bg-primary/10 group-hover:text-primary transition-colors">12</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">Thử thách của bạn</h3>
+                    <div class="space-y-3">
+                        <div class="group p-3 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-xl hover:shadow-md transition-all cursor-pointer">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-white">
+                                        <i class="ri-book-read-line text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-800">7 ngày viết nhật ký</span>
+                                </div>
+                                <span class="text-xs font-medium text-yellow-600 bg-yellow-100 px-2 py-1 rounded-full">4/7</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div class="bg-gradient-to-r from-yellow-400 to-amber-500 h-1.5 rounded-full" style="width: 57%"></div>
+                            </div>
+                        </div>
+                        <div class="group p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl hover:shadow-md transition-all cursor-pointer">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white">
+                                        <i class="ri-mental-health-line text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-800">5 ngày không chê bản thân</span>
+                                </div>
+                                <span class="text-xs font-medium text-green-600 bg-green-100 px-2 py-1 rounded-full">2/5</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div class="bg-gradient-to-r from-green-400 to-emerald-500 h-1.5 rounded-full" style="width: 40%"></div>
+                            </div>
+                        </div>
+                        <div class="group p-3 bg-gradient-to-r from-pink-50 to-rose-50 rounded-xl hover:shadow-md transition-all cursor-pointer">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center space-x-2">
+                                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white">
+                                        <i class="ri-sun-line text-sm"></i>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-800">3 ngày tập thể dục</span>
+                                </div>
+                                <span class="text-xs font-medium text-pink-600 bg-pink-100 px-2 py-1 rounded-full">1/3</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div class="bg-gradient-to-r from-pink-400 to-rose-500 h-1.5 rounded-full" style="width: 33%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Middle Content -->
+            <div class="flex-1 max-w-2xl mx-auto px-4 py-6">
+                <!-- Header Section -->
+                <div class="flex items-center space-x-4 mb-8">
+                    <div class="relative">
+                        <div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center shadow-lg animate-pulse">
+                            <i class="ri-mail-lock-line text-3xl text-white"></i>
+                        </div>
+                        <div class="absolute -top-1 -right-1 w-5 h-5 bg-yellow-400 rounded-full flex items-center justify-center shadow-md">
+                            <i class="ri-star-fill text-xs text-white"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl md:text-3xl font-bold mb-1 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Tâm sự ẩn danh</h1>
+                        <p class="text-gray-500 text-sm">Chia sẻ những điều mà bạn chưa thể nói ra</p>
+                    </div>
+                </div>
+
+                <!-- Recent Confessions -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm p-6 mb-6 border border-white/20">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="ri-chat-3-line mr-2 text-primary"></i>
+                        Các tâm sự gần đây
+                    </h2>
+
+                    <!-- Confession 1 -->
+                    <div class="group bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-4 mb-3 border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center text-white text-xs font-medium">A</div>
+                                <span class="font-medium text-sm text-gray-800">angle (Bthy)</span>
+                            </div>
+                            <span class="text-xs text-gray-400">Khoảng 3 ngày trước</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-2">Tâm sự - tâm sự với tui neee</p>
+                        <div class="flex items-center space-x-4 text-xs text-gray-400">
+                            <span class="flex items-center"><i class="ri-chat-3-line mr-1"></i> 38</span>
+                            <span class="flex items-center"><i class="ri-heart-3-line mr-1"></i> 2</span>
+                        </div>
+                    </div>
+
+                    <!-- Confession 2 -->
+                    <div class="group bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-4 mb-3 border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white text-xs font-medium">GĐ</div>
+                                <span class="font-medium text-sm text-gray-800">Gia đình</span>
+                            </div>
+                            <span class="text-xs text-gray-400">Khoảng 8 ngày trước</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-2">Tâm sự - Gia Đình</p>
+                        <div class="flex items-center space-x-4 text-xs text-gray-400">
+                            <span class="flex items-center"><i class="ri-chat-3-line mr-1"></i> 65</span>
+                            <span class="flex items-center"><i class="ri-heart-3-line mr-1"></i> 1</span>
+                        </div>
+                    </div>
+
+                    <!-- Confession 3 -->
+                    <div class="group bg-gradient-to-r from-primary/5 to-secondary/5 rounded-xl p-4 border border-transparent hover:border-primary/20 transition-all cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center text-white text-xs font-medium">SN</div>
+                                <span class="font-medium text-sm text-gray-800">Song Ngọc</span>
+                            </div>
+                            <span class="text-xs text-gray-400">Khoảng 19 ngày trước</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-2">Tâm sự - Xin ý kiến chia sẻ</p>
+                        <div class="flex items-center space-x-4 text-xs text-gray-400">
+                            <span class="flex items-center"><i class="ri-chat-3-line mr-1"></i> 135</span>
+                            <span class="flex items-center"><i class="ri-heart-3-line mr-1"></i> 2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Send Confession Form -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm p-6 border border-white/20">
+                    <h2 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="ri-edit-2-line mr-2 text-primary"></i>
+                        Gửi tâm sự của bạn
+                    </h2>
+                    <form id="moodForm" class="space-y-4">
+                        <div class="relative">
+                            <textarea
+                                placeholder="Nhập tâm sự của bạn..."
+                                class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary text-sm resize-none"
+                                rows="4"
+                                required
+                            ></textarea>
+                            <div class="absolute bottom-3 right-3 flex items-center space-x-2">
+                                <button type="button" class="p-2 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
+                                    <i class="ri-emotion-line text-lg"></i>
+                                </button>
+                                <button type="button" class="p-2 text-gray-400 hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
+                                    <i class="ri-image-line text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs text-gray-400 flex items-center">
+                                <i class="ri-shield-check-line mr-1"></i>
+                                Tâm sự của bạn sẽ được ẩn danh
+                            </p>
+                            <button
+                                type="submit"
+                                class="px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-medium text-sm hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center"
+                            >
+                                <i class="ri-send-plane-line mr-2"></i>
+                                Gửi tâm sự
+                            </button>
+                        </div>
+                    </form>
+                    <p id="successMessage" class="text-primary font-medium text-sm mt-2 hidden flex items-center">
+                        <i class="ri-check-circle-line mr-1"></i>
+                        Cảm ơn bạn đã chia sẻ!
+                    </p>
+                </div>
+            </div>
+            <!-- Right Sidebar -->
+            <div class="w-80 p-4 hidden xl:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide">
+                <!-- Healing Suggestions -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm p-4 mb-4 border border-white/20">
+                    <h3 class="font-semibold mb-3 flex items-center text-gray-800">
+                        <i class="ri-heart-2-line mr-2 text-pink-500"></i>
+                        Gợi ý chữa lành
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="group flex items-start space-x-3 p-3 bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl cursor-pointer hover:shadow-md transition-all">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white shrink-0 shadow-md">
+                                <i class="ri-headphone-line"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-800 group-hover:text-primary transition-colors truncate">Podcast: Bình yên trong tâm hồn</p>
+                                <p class="text-xs text-gray-500">20 phút • 4.1k lượt nghe</p>
+                            </div>
+                        </div>
+                        <div class="group flex items-start space-x-3 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl cursor-pointer hover:shadow-md transition-all">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white shrink-0 shadow-md">
+                                <i class="ri-article-line"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-800 group-hover:text-primary transition-colors truncate">Bài viết: Vượt qua nỗi buồn</p>
+                                <p class="text-xs text-gray-500">10 phút đọc • 2.3k lượt xem</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Active Chat Rooms -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm p-4 mb-4 border border-white/20">
+                    <h3 class="font-semibold mb-3 flex items-center text-gray-800">
+                        <i class="ri-group-line mr-2 text-primary"></i>
+                        Phòng chat đang hoạt động
+                    </h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-primary/5 cursor-pointer transition-all group">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm text-gray-700 group-hover:text-primary transition-colors">Trầm cảm</span>
+                            </div>
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">24</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-primary/5 cursor-pointer transition-all group">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm text-gray-700 group-hover:text-primary transition-colors">Áp lực học tập</span>
+                            </div>
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">18</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-xl hover:bg-primary/5 cursor-pointer transition-all group">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                                <span class="text-sm text-gray-700 group-hover:text-primary transition-colors">Mất ngủ</span>
+                            </div>
+                            <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">9</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Active Challenges -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm p-4 mb-4 border border-white/20">
+                    <h3 class="font-semibold mb-3 flex items-center text-gray-800">
+                        <i class="ri-trophy-line mr-2 text-yellow-500"></i>
+                        Thử thách đang tham gia
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-3 p-3 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-xl">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-white shadow-md">
+                                <i class="ri-book-read-line"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-800">7 ngày viết nhật ký</p>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                    <div class="bg-gradient-to-r from-yellow-400 to-amber-500 h-1.5 rounded-full" style="width: 57%"></div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-medium text-yellow-600">4/7</span>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white shadow-md">
+                                <i class="ri-mental-health-line"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-800">5 ngày không chê bản thân</p>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-1">
+                                    <div class="bg-gradient-to-r from-green-400 to-emerald-500 h-1.5 rounded-full" style="width: 40%"></div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-medium text-green-600">2/5</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Premium Features -->
+                <div class="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl shadow-sm p-4 mb-4 border border-primary/20">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-semibold flex items-center text-gray-800">
+                            <i class="ri-vip-diamond-line mr-2 text-yellow-500"></i>
+                            Gói Premium
+                        </h3>
+                        <span class="text-xs bg-yellow-400 text-white px-2 py-1 rounded-full font-medium animate-pulse">-20% Hôm nay</span>
+                    </div>
+                    <div class="space-y-2 mb-4">
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <i class="ri-lock-unlock-line text-primary"></i>
+                            <span>Truy cập không giới hạn</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <i class="ri-message-3-line text-primary"></i>
+                            <span>Tư vấn 1-1 chuyên gia</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <i class="ri-advertisement-line text-primary"></i>
+                            <span>Không quảng cáo</span>
+                        </div>
+                    </div>
+                    <button onclick="showPremiumModal()" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-2.5 rounded-xl font-medium text-sm hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
+                        Nâng cấp Premium
+                    </button>
+                </div>
+                <!-- Wish Tree -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-sm p-4 border border-white/20">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-semibold flex items-center text-gray-800">
+                            <i class="ri-plant-line mr-2 text-green-500"></i>
+                            Cây điều ước
+                        </h3>
+                        <a href="wishtree.html" class="text-xs text-primary hover:underline">Thêm điều ước</a>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border-l-4 border-green-400">
+                            <p class="text-sm italic text-gray-600">"Mong tất cả mọi người đều tìm được bình yên trong tâm hồn."</p>
+                            <p class="text-xs text-gray-400 mt-1">- Người dùng ẩn danh</p>
+                        </div>
+                        <div class="p-3 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border-l-4 border-green-400">
+                            <p class="text-sm italic text-gray-600">"Hy vọng mình có thể vượt qua kỳ thi sắp tới."</p>
+                            <p class="text-xs text-gray-400 mt-1">- Lê Hoàng Minh</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Premium Modal -->
+        <div id="premiumModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] hidden">
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl transform transition-all scale-100">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                            <i class="ri-vip-diamond-fill text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Nâng cấp Premium</h3>
+                    </div>
+                    <button onclick="closePremiumModal()" class="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                        <i class="ri-close-line text-xl"></i>
+                    </button>
+                </div>
+
+                <p class="text-gray-500 text-sm mb-6 text-center">Chọn gói phù hợp với bạn</p>
+
+                <div class="space-y-3 mb-6">
+                    <div class="package-option border-2 border-gray-100 rounded-xl p-4 cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group" data-package="12-month">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-gradient-to-r from-primary to-secondary text-white text-xs px-2 py-1 rounded-full font-medium">TIẾT KIỆM 25%</span>
+                                <h4 class="font-semibold text-gray-800">Gói 12 tháng</h4>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs line-through text-gray-400">2.388.000đ</p>
+                                <p class="text-lg font-bold text-primary">1.788.000đ</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500">149.000đ/tháng</p>
+                    </div>
+                    <div class="package-option border-2 border-gray-100 rounded-xl p-4 cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group" data-package="6-month">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full font-medium">TIẾT KIỆM 20%</span>
+                                <h4 class="font-semibold text-gray-800">Gói 6 tháng</h4>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs line-through text-gray-400">1.194.000đ</p>
+                                <p class="text-lg font-bold text-primary">954.000đ</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500">159.000đ/tháng</p>
+                    </div>
+                    <div class="package-option border-2 border-primary bg-primary/5 rounded-xl p-4 cursor-pointer transition-all duration-300 ring-2 ring-primary/30" data-package="1-month">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-semibold text-gray-800">Gói 1 tháng</h4>
+                            <p class="text-lg font-bold text-primary">199.000đ</p>
+                        </div>
+                        <p class="text-sm text-gray-500">Thanh toán hàng tháng</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="handlePayment('momo')" class="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-[#A50064] to-[#E91E63] text-white py-3 rounded-xl font-medium transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]">
+                        <i class="ri-shopping-bag-3-fill text-lg"></i>
+                        <span>Thanh toán với MoMo</span>
+                    </button>
+                    <button onclick="handlePayment('zalopay')" class="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-[#0068FF] to-[#3385FF] text-white py-3 rounded-xl font-medium transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]">
+                        <i class="ri-bank-card-fill text-lg"></i>
+                        <span>Thanh toán với ZaloPay</span>
+                    </button>
+                </div>
+
+                <p class="text-center text-gray-400 text-xs mt-4">
+                    <i class="ri-shield-check-line mr-1"></i>
+                    Bảo mật thanh toán
+                </p>
+            </div>
+        </div>
+        <!-- Emergency Support Button -->
+        <div class="fixed bottom-6 right-6 z-50">
+            <button class="bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center btn-scale">
+                <div class="w-6 h-6 flex items-center justify-center icon-hover">
+                    <i class="ri-phone-line text-xl"></i>
+                </div>
+            </button>
+        </div>
+    </div>
+    <script src="../js/main.js"></script>
+    <script>
+        // Xử lý form gửi tâm sự
+        document.getElementById('moodForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const textarea = this.querySelector('textarea');
+            if (textarea.value.trim() !== '') {
+                const successMessage = document.getElementById('successMessage');
+                successMessage.classList.remove('hidden');
+                textarea.value = '';
+                setTimeout(() => {
+                    successMessage.classList.add('hidden');
+                }, 3000);
+            }
+        });
+    </script>
+</html>

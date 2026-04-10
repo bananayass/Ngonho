@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cài đặt | Ngõ nhỏ</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <link rel="stylesheet" href="../css/styles.css" />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#6366f1",
+              secondary: "#8b5cf6",
+            },
+            fontFamily: {
+              nunito: ["Nunito", "sans-serif"],
+            },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      body {
+        font-family: "Nunito", sans-serif;
+      }
+
+      .glass {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+
+      .setting-item {
+        transition: all 0.2s ease;
+      }
+
+      .setting-item:hover {
+        background: rgba(99, 102, 241, 0.05);
+      }
+
+      .toggle-switch {
+        position: relative;
+        width: 52px;
+        height: 28px;
+        background: #e5e7eb;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .toggle-switch.active {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      }
+
+      .toggle-switch::after {
+        content: '';
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 24px;
+        height: 24px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .toggle-switch.active::after {
+        transform: translateX(24px);
+      }
+
+      .tab-btn {
+        transition: all 0.2s ease;
+      }
+
+      .tab-btn.active {
+        background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      }
+
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-gray-50 via-primary/5 to-secondary/5 min-h-screen">
+    <div class="min-h-screen flex flex-col">
+      <!-- Header -->
+      <header class="glass shadow-sm sticky top-0 z-50">
+        <div class="flex items-center justify-between px-4 py-2">
+          <div class="flex items-center">
+            <a href="main.html" class="text-2xl font-['Pacifico'] text-primary mr-8">Ngõ Nhỏ</a>
+            <div class="relative hidden md:block">
+              <input type="text" placeholder="Tìm kiếm..." class="pl-10 pr-4 py-2 bg-gray-100 rounded-full w-80 focus:outline-none focus:ring-2 focus:ring-primary text-sm" />
+              <div class="absolute left-3 top-2.5 w-5 h-5 flex items-center justify-center text-gray-500">
+                <i class="ri-search-line"></i>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3">
+            <!-- Notifications -->
+            <a href="notifications.html" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer hover:bg-primary/10 hover:text-primary transition-all">
+              <i class="ri-notification-3-line text-gray-600"></i>
+            </a>
+            <!-- Messages -->
+            <a href="dm.html" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer hover:bg-primary/10 hover:text-primary transition-all">
+              <i class="ri-message-3-line text-gray-600"></i>
+            </a>
+            <!-- Settings - Active -->
+            <a href="settings.html" class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center cursor-pointer">
+              <i class="ri-settings-4-fill text-primary"></i>
+            </a>
+            <!-- User Avatar -->
+            <div class="flex items-center cursor-pointer">
+              <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474092CAT/anh-avatar-chill-lofi-dep_021444026.jpg" alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/30" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content -->
+      <div class="flex-1 flex">
+        <!-- Left Sidebar -->
+        <div class="w-64 bg-white shadow-sm p-4 hidden lg:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide">
+          <nav class="space-y-1">
+            <a href="main.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-home-5-line"></i></div><span class="font-semibold">Trang chủ</span>
+            </a>
+            <a href="messages.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-mail-lock-line"></i></div><span class="font-semibold">Tâm sự ẩn danh</span>
+            </a>
+            <a href="chatroom.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-chat-3-line"></i></div><span class="font-semibold">Phòng trò chuyện</span>
+            </a>
+            <a href="mTrack.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-emotion-line"></i></div><span class="font-semibold">Mood Tracker</span>
+            </a>
+            <a href="khoND.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-book-open-line"></i></div><span class="font-semibold">Kho nội dung</span>
+            </a>
+            <a href="challenges.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-trophy-line"></i></div><span class="font-semibold">Thử thách</span>
+            </a>
+            <a href="futureme.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-mail-line"></i></div><span class="font-semibold">Hộp thư lắng nghe</span>
+            </a>
+            <a href="podcast.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-headphone-line"></i></div><span class="font-semibold">Podcast</span>
+            </a>
+            <a href="wishtree.html" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+              <div class="w-6 h-6 flex items-center justify-center"><i class="ri-plant-line"></i></div><span class="font-semibold">Cây điều ước</span>
+            </a>
+          </nav>
+          <div class="mt-8">
+            <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">Phòng chat phổ biến</h3>
+            <div class="space-y-1">
+              <a href="#" class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span><span class="font-semibold">Trầm cảm</span><span class="ml-auto text-xs text-gray-500">24</span>
+              </a>
+              <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100 card-hover">
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span><span class="font-semibold">Áp lực học tập</span><span class="ml-auto text-xs text-gray-500">18</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Settings Area -->
+        <div class="flex-1 max-w-3xl mx-auto px-4 py-6">
+          <!-- Breadcrumb -->
+          <div class="flex items-center text-sm text-gray-500 mb-6">
+            <a href="main.html" class="hover:text-primary transition-colors font-semibold">Trang chủ</a>
+            <i class="ri-arrow-right-s-line mx-2"></i>
+            <span class="text-primary font-semibold">Cài đặt</span>
+          </div>
+
+          <!-- Page Header -->
+          <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+            <h1 class="text-2xl font-extrabold text-gray-800 mb-2">
+              <i class="ri-settings-4-fill text-primary mr-2"></i>Cài đặt
+            </h1>
+            <p class="text-gray-600">Quản lý tài khoản và cài đặt ứng dụng</p>
+          </div>
+
+          <!-- Profile Card -->
+          <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
+            <div class="flex items-center space-x-6">
+              <div class="relative">
+                <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474092CAT/anh-avatar-chill-lofi-dep_021444026.jpg" alt="Avatar" class="w-24 h-24 rounded-full object-cover ring-4 ring-primary/20" />
+                <button class="absolute bottom-0 right-0 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center hover:bg-primary/90 transition-all">
+                  <i class="ri-camera-line text-sm"></i>
+                </button>
+              </div>
+              <div class="flex-1">
+                <h2 class="text-xl font-extrabold text-gray-800">Người dùng ẩn danh</h2>
+                <p class="text-gray-500">nguoian@gmail.com</p>
+                <div class="flex items-center space-x-2 mt-2">
+                  <span class="px-3 py-1 bg-primary/10 text-primary text-sm font-semibold rounded-full">Miễn phí</span>
+                  <span class="px-3 py-1 bg-green-100 text-green-600 text-sm font-semibold rounded-full">Đã xác minh</span>
+                </div>
+              </div>
+              <button class="px-4 py-2 bg-primary text-white rounded-xl font-semibold hover:bg-primary/90 transition-all">
+                <i class="ri-edit-line mr-1"></i>Chỉnh sửa
+              </button>
+            </div>
+          </div>
+
+          <!-- Settings Tabs -->
+          <div class="bg-white rounded-2xl shadow-sm mb-6">
+            <div class="flex border-b border-gray-200">
+              <button class="tab-btn active flex-1 py-4 px-6 font-semibold text-center" data-tab="account">
+                <i class="ri-user-settings-line mr-2"></i>Tài khoản
+              </button>
+              <button class="tab-btn flex-1 py-4 px-6 font-semibold text-gray-600 text-center hover:bg-gray-50" data-tab="privacy">
+                <i class="ri-shield-user-line mr-2"></i>Quyền riêng tư
+              </button>
+              <button class="tab-btn flex-1 py-4 px-6 font-semibold text-gray-600 text-center hover:bg-gray-50" data-tab="notifications">
+                <i class="ri-notification-3-line mr-2"></i>Thông báo
+              </button>
+              <button class="tab-btn flex-1 py-4 px-6 font-semibold text-gray-600 text-center hover:bg-gray-50" data-tab="appearance">
+                <i class="ri-palette-line mr-2"></i>Hiển thị
+              </button>
+            </div>
+
+            <!-- Account Settings -->
+            <div id="tab-content-account" class="p-6 space-y-6">
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
+                    <i class="ri-user-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Thông tin cá nhân</h3>
+                    <p class="text-sm text-gray-500">Tên hiển thị, bio, ngày sinh</p>
+                  </div>
+                </div>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-green-600">
+                    <i class="ri-mail-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Email</h3>
+                    <p class="text-sm text-gray-500">nguoian@gmail.com</p>
+                  </div>
+                </div>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600">
+                    <i class="ri-lock-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Mật khẩu</h3>
+                    <p class="text-sm text-gray-500">Thay đổi mật khẩu</p>
+                  </div>
+                </div>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-orange-600">
+                    <i class="ri-phone-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Số điện thoại</h3>
+                    <p class="text-sm text-gray-500">Chưa liên kết</p>
+                  </div>
+                </div>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+              </div>
+            </div>
+
+            <!-- Privacy Settings -->
+            <div id="tab-content-privacy" class="p-6 space-y-4 hidden">
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-600">
+                    <i class="ri-eye-off-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Ẩn danh</h3>
+                    <p class="text-sm text-gray-500">Cho phép ẩn danh khi chia sẻ</p>
+                  </div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
+                    <i class="ri-user-follow-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Ai có thể theo dõi tôi</h3>
+                    <p class="text-sm text-gray-500">Mọi người</p>
+                  </div>
+                </div>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center text-green-600">
+                    <i class="ri-message-2-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Ai có thể nhắn tin</h3>
+                    <p class="text-sm text-gray-500">Người tôi theo dõi</p>
+                  </div>
+                </div>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-600">
+                    <i class="ri-book-read-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Hiển thị hoạt động</h3>
+                    <p class="text-sm text-gray-500">Cho phép hiển thị trạng thái online</p>
+                  </div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+              </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div id="tab-content-notifications" class="p-6 space-y-4 hidden">
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-600">
+                    <i class="ri-notification-3-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Thông báo tin nhắn</h3>
+                    <p class="text-sm text-gray-500">Nhận thông báo khi có tin nhắn mới</p>
+                  </div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-pink-100 flex items-center justify-center text-pink-600">
+                    <i class="ri-heart-fill text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Thông báo thích</h3>
+                    <p class="text-sm text-gray-500">Nhận thông báo khi ai đó thích bài viết</p>
+                  </div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-600">
+                    <i class="ri-alarm-warning-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Nhắc nhở viết nhật ký</h3>
+                    <p class="text-sm text-gray-500">Nhắc nhở mỗi ngày lúc 21:00</p>
+                  </div>
+                </div>
+                <div class="toggle-switch active" onclick="this.classList.toggle('active')"></div>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-purple-100 flex items-center justify-center text-purple-600">
+                    <i class="ri-mail-send-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Email thông báo</h3>
+                    <p class="text-sm text-gray-500">Nhận thông báo qua email</p>
+                  </div>
+                </div>
+                <div class="toggle-switch" onclick="this.classList.toggle('active')"></div>
+              </div>
+            </div>
+
+            <!-- Appearance Settings -->
+            <div id="tab-content-appearance" class="p-6 space-y-4 hidden">
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600">
+                    <i class="ri-sun-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Giao diện</h3>
+                    <p class="text-sm text-gray-500">Sáng</p>
+                  </div>
+                </div>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-600">
+                    <i class="ri-font-size text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Cỡ chữ</h3>
+                    <p class="text-sm text-gray-500">Mặc định</p>
+                  </div>
+                </div>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+              </div>
+
+              <div class="setting-item flex items-center justify-between p-4 rounded-xl">
+                <div class="flex items-center space-x-4">
+                  <div class="w-12 h-12 rounded-xl bg-pink-100 flex items-center justify-center text-pink-600">
+                    <i class="ri-layout-grid-line text-xl"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-bold text-gray-800">Hiển thị</h3>
+                    <p class="text-sm text-gray-500">Mặc định</p>
+                  </div>
+                </div>
+                <i class="ri-arrow-right-s-line text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Danger Zone -->
+          <div class="bg-white rounded-2xl shadow-sm p-6">
+            <h2 class="text-lg font-extrabold text-gray-800 mb-4">Vùng nguy hiểm</h2>
+            <div class="space-y-3">
+              <button class="w-full flex items-center space-x-4 p-4 rounded-xl border border-yellow-200 bg-yellow-50 hover:bg-yellow-100 transition-all">
+                <div class="w-12 h-12 rounded-xl bg-yellow-100 flex items-center justify-center text-yellow-600">
+                  <i class="ri-download-cloud-line text-xl"></i>
+                </div>
+                <div class="text-left">
+                  <h3 class="font-bold text-gray-800">Tải dữ liệu</h3>
+                  <p class="text-sm text-gray-500">Tải xuống tất cả dữ liệu của bạn</p>
+                </div>
+              </button>
+              <button class="w-full flex items-center space-x-4 p-4 rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 transition-all">
+                <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-600">
+                  <i class="ri-delete-bin-line text-xl"></i>
+                </div>
+                <div class="text-left">
+                  <h3 class="font-bold text-gray-800">Xóa tài khoản</h3>
+                  <p class="text-sm text-gray-500">Xóa vĩnh viễn tài khoản và dữ liệu</p>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <div class="w-80 p-4 hidden xl:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide">
+          <!-- Account Summary -->
+          <div class="bg-white rounded-2xl shadow-sm p-4 mb-6">
+            <h3 class="font-extrabold text-gray-800 mb-4">Tóm tắt tài khoản</h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-600">Trạng thái</span>
+                <span class="px-3 py-1 bg-green-100 text-green-600 text-sm font-semibold rounded-full">Hoạt động</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-600">Ngày tham gia</span>
+                <span class="text-gray-800 font-semibold">15/03/2025</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-600">Lần đăng nhập cuối</span>
+                <span class="text-gray-800 font-semibold">Hôm nay</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Security -->
+          <div class="bg-white rounded-2xl shadow-sm p-4 mb-6">
+            <h3 class="font-extrabold text-gray-800 mb-4">Bảo mật</h3>
+            <div class="space-y-3">
+              <a href="#" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-all cursor-pointer">
+                <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center text-green-600">
+                  <i class="ri-shield-check-line"></i>
+                </div>
+                <div>
+                  <p class="font-semibold text-gray-800">Bảo mật 2 bước</p>
+                  <p class="text-xs text-gray-500">Chưa bật</p>
+                </div>
+              </a>
+              <a href="#" class="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-50 transition-all cursor-pointer">
+                <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600">
+                  <i class="ri-login-circle-line"></i>
+                </div>
+                <div>
+                  <p class="font-semibold text-gray-800">Lịch sử đăng nhập</p>
+                  <p class="text-xs text-gray-500">Xem các thiết bị</p>
+                </div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Help -->
+          <div class="bg-white rounded-2xl shadow-sm p-4">
+            <h3 class="font-extrabold text-gray-800 mb-4">Trợ giúp</h3>
+            <div class="space-y-2">
+              <a href="#" class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-50 transition-all cursor-pointer text-gray-700">
+                <i class="ri-question-line text-gray-500"></i>
+                <span class="font-medium">Câu hỏi thường gặp</span>
+              </a>
+              <a href="#" class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-50 transition-all cursor-pointer text-gray-700">
+                <i class="ri-headphone-line text-gray-500"></i>
+                <span class="font-medium">Liên hệ hỗ trợ</span>
+              </a>
+              <a href="#" class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-50 transition-all cursor-pointer text-gray-700">
+                <i class="ri-file-info-line text-gray-500"></i>
+                <span class="font-medium">Điều khoản dịch vụ</span>
+              </a>
+              <a href="#" class="flex items-center space-x-3 p-2 rounded-xl hover:bg-gray-50 transition-all cursor-pointer text-gray-700">
+                <i class="ri-shield-check-line text-gray-500"></i>
+                <span class="font-medium">Chính sách bảo mật</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency Support Button -->
+      <div class="fixed bottom-6 right-6 z-50">
+        <button class="bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform">
+          <i class="ri-phone-line text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Tab switching
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Remove active class from all buttons
+          tabBtns.forEach(b => {
+            b.classList.remove('active');
+            b.classList.add('text-gray-600', 'hover:bg-gray-50');
+          });
+          // Add active class to clicked button
+          btn.classList.add('active');
+          btn.classList.remove('text-gray-600', 'hover:bg-gray-50');
+
+          // Hide all tab contents
+          document.querySelectorAll('[id^="tab-content-"]').forEach(content => {
+            content.classList.add('hidden');
+          });
+          // Show selected tab content
+          const tabName = btn.dataset.tab;
+          document.getElementById(`tab-content-${tabName}`).classList.remove('hidden');
+        });
+      });
+    </script>
+  </body>
+</html>

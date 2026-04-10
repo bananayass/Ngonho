@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngõ Nhỏ - Mood Tracker</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#6366f1",
+                        secondary: "#8b5cf6",
+                        rose: "#EF4444",
+                        roseLight: "#FEE2E2",
+                        blush: "#DC2626",
+                        blushLight: "#FFF1F2",
+                        coral: "#F87171",
+                    },
+                    fontFamily: {
+                        serif: ["Lora", "serif"],
+                        sans: ["Raleway", "sans-serif"],
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                    animation: {
+                        "float": "float 6s ease-in-out infinite",
+                        "grow": "grow 0.5s ease-out forwards",
+                        "sway": "sway 4s ease-in-out infinite",
+                        "twinkle": "twinkle 2s ease-in-out infinite",
+                        "leaf-fall": "leaf-fall 3s ease-in-out infinite",
+                        "fade-in-up": "fadeInUp 0.6s ease-out forwards",
+                        "pulse-gentle": "pulseGentle 2s ease-in-out infinite",
+                        "bounce-in": "bounceIn 0.5s ease-out forwards",
+                    },
+                    keyframes: {
+                        float: {
+                            "0%, 100%": { transform: "translateY(0)" },
+                            "50%": { transform: "translateY(-10px)" },
+                        },
+                        fadeInUp: {
+                            "0%": { opacity: "0", transform: "translateY(20px)" },
+                            "100%": { opacity: "1", transform: "translateY(0)" },
+                        },
+                        pulseGentle: {
+                            "0%, 100%": { transform: "scale(1)" },
+                            "50%": { transform: "scale(1.05)" },
+                        },
+                        bounceIn: {
+                            "0%": { opacity: "0", transform: "scale(0.3)" },
+                            "50%": { transform: "scale(1.1)" },
+                            "100%": { opacity: "1", transform: "scale(1)" },
+                        },
+                        grow: {
+                            "0%": { transform: "scale(0.8)", opacity: "0" },
+                            "100%": { transform: "scale(1)", opacity: "1" },
+                        },
+                        sway: {
+                            "0%, 100%": { transform: "rotate(-2deg)" },
+                            "50%": { transform: "rotate(2deg)" },
+                        },
+                        twinkle: {
+                            "0%, 100%": { opacity: "1" },
+                            "50%": { opacity: "0.5" },
+                        },
+                        "leaf-fall": {
+                            "0%": { transform: "translateY(0) rotate(0deg)", opacity: "1" },
+                            "100%": { transform: "translateY(50px) rotate(45deg)", opacity: "0" },
+                        },
+                    },
+                },
+            },
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* Glassmorphism Styles */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-dark {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(34, 139, 34, 0.2);
+        }
+
+        /* Organic Card Styles */
+        .organic-card {
+            border-radius: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .organic-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(34, 139, 34, 0.15);
+        }
+
+        /* Floating Emojis */
+        .floating-emoji {
+            position: absolute;
+            font-size: 1.5rem;
+            animation: emoji-float 4s ease-in-out infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes emoji-float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(10deg);
+            }
+        }
+
+        /* Animations */
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pulse-gentle {
+            animation: pulseGentle 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGentle {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.5s ease-out forwards;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .spin-slow {
+            animation: spinSlow 8s linear infinite;
+        }
+
+        @keyframes spinSlow {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .wiggle {
+            animation: wiggle 0.5s ease-in-out infinite;
+        }
+
+        @keyframes wiggle {
+
+            0%,
+            100% {
+                transform: rotate(-3deg);
+            }
+
+            50% {
+                transform: rotate(3deg);
+            }
+        }
+
+        /* Gradient Background */
+        .mood-gradient {
+            background: linear-gradient(135deg, #F5F5DC 0%, #E8F5E9 50%, #C8E6C9 100%);
+        }
+
+        /* Custom Scrollbar */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-roseLight via-white to-blushLight min-h-screen">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="glass shadow-sm sticky top-0 z-50">
+            <div class="flex items-center justify-between px-4 py-2">
+                <div class="flex items-center">
+                    <a href="main.html" class="text-2xl font-['Pacifico'] text-primary mr-8">Ngõ Nhỏ</a>
+                    <div class="relative hidden md:block">
+                        <input type="text" placeholder="Tìm kiếm..."
+                            class="pl-10 pr-4 py-2 bg-white/60 backdrop-blur-sm rounded-full w-80 focus:outline-none focus:ring-2 focus:ring-rose border border-rose-200" />
+                        <div class="absolute left-3 top-2.5 w-5 h-5 flex items-center justify-center text-gray-500">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a href="notifications.html"
+                        class="w-10 h-10 rounded-full bg-white/60 backdrop-blur-sm flex items-center justify-center relative cursor-pointer hover:bg-white transition-all">
+                        <i class="ri-notification-3-line text-gray-600"></i>
+                        <span
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </a>
+                    <a href="dm.html"
+                        class="w-10 h-10 rounded-full bg-white/60 backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-white transition-all">
+                        <i class="ri-message-3-line text-gray-600"></i>
+                    </a>
+                    <a href="settings.html"
+                        class="w-10 h-10 rounded-full bg-white/60 backdrop-blur-sm flex items-center justify-center cursor-pointer hover:bg-white transition-all">
+                        <i class="ri-settings-4-line text-gray-600"></i>
+                    </a>
+                    <div class="flex items-center cursor-pointer">
+                        <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474092CAT/anh-avatar-chill-lofi-dep_021444026.jpg"
+                            alt="Avatar" class="w-10 h-10 rounded-full object-cover ring-2 ring-green-200" />
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content -->
+        <div class="flex-1 flex">
+            <!-- Left Sidebar -->
+            <div
+                class="w-64 bg-white/60 backdrop-blur-md shadow-sm p-4 hidden lg:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide">
+                <nav class="space-y-1">
+                    <a href="main.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center"><i class="ri-home-5-line"></i></div><span
+                            class="font-medium">Trang chủ</span>
+                    </a>
+                    <a href="messages.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center"><i class="ri-mail-lock-line"></i></div>
+                        <span class="font-medium">Tâm sự ẩn danh</span>
+                    </a>
+                    <a href="chatroom.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center"><i class="ri-chat-3-line"></i></div><span
+                            class="font-medium">Phòng trò chuyện</span>
+                    </a>
+                    <a href="mTrack.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl bg-rose/10 text-rose font-medium card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center"><i class="ri-emotion-line"></i></div><span
+                            class="font-medium">Mood Tracker</span>
+                    </a>
+                    <a href="khoND.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center"><i class="ri-book-open-line"></i></div>
+                        <span class="font-medium">Kho nội dung</span>
+                    </a>
+                    <a href="challenges.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center"><i class="ri-trophy-line"></i></div><span
+                            class="font-medium">Thử thách</span>
+                    </a>
+                    <a href="futureme.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center"><i class="ri-mail-line"></i></div><span
+                            class="font-medium">Hộp thư lắng nghe</span>
+                    </a>
+                    <a href="wishtree.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center"><i class="ri-plant-line"></i></div><span
+                            class="font-medium">Cây điều ước</span>
+                    </a>
+                </nav>
+                <div class="mt-8">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">Phòng chat phổ
+                        biến</h3>
+                    <div class="space-y-1">
+                        <a href="#"
+                            class="flex items-center space-x-3 px-3 py-2 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span><span class="font-medium">Trầm
+                                cảm</span><span class="ml-auto text-xs text-gray-500">24</span>
+                        </a>
+                        <a href="#"
+                            class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span><span class="font-medium">Áp lực học
+                                tập</span><span class="ml-auto text-xs text-gray-500">18</span>
+                        </a>
+                        <a href="#"
+                            class="flex items-center space-x-3 px-3 py-2.5 rounded-xl text-gray-700 hover:bg-white/80 card-hover">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span><span class="font-medium">Mất
+                                ngủ</span><span class="ml-auto text-xs text-gray-500">9</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">Thử thách của bạn
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-white/60 rounded-xl p-3 card-hover">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">7 ngày viết nhật ký</span>
+                                <span class="text-xs text-rose font-semibold">4/7</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div class="bg-gradient-to-r from-rose to-blush h-1.5 rounded-full" style="width: 57%">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white/60 rounded-xl p-3 card-hover">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">5 ngày không chê bản thân</span>
+                                <span class="text-xs text-rose font-semibold">2/5</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div class="bg-gradient-to-r from-rose to-blush h-1.5 rounded-full" style="width: 40%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Middle Content -->
+            <div class="flex-1 max-w-2xl mx-auto px-4 py-6">
+                <!-- Header with Mood Icon -->
+                <div class="glass-dark organic-card p-8 mb-6 relative overflow-hidden fade-in-up">
+                    <!-- Floating emojis -->
+                    <span class="floating-emoji" style="top: 15%; left: 8%; animation-delay: 0s;">😊</span>
+                    <span class="floating-emoji" style="top: 25%; right: 10%; animation-delay: 1s;">💭</span>
+                    <span class="floating-emoji" style="bottom: 20%; left: 15%; animation-delay: 2s;">💝</span>
+                    <span class="floating-emoji" style="bottom: 35%; right: 20%; animation-delay: 0.5s;">🌸</span>
+                    <div class="flex items-center space-x-6 relative z-10">
+                        <div
+                            class="w-20 h-20 rounded-full bg-gradient-to-br from-rose to-blush-400 flex items-center justify-center shadow-lg pulse-gentle">
+                            <i class="ri-emotion-line text-4xl text-white"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-3xl font-serif font-bold text-gray-800 mb-2">Theo dõi cảm xúc</h1>
+                            <p class="text-gray-600 font-sans text-sm leading-relaxed">
+                                Ghi lại cảm xúc mỗi ngày để hiểu rõ hơn về bản thân,<br />
+                                xây dựng thói quen quan sát và chăm sóc tâm trí
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mood Input Card -->
+                <div class="glass organic-card p-6 mb-6 bounce-in" style="animation-delay: 0.1s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-serif font-semibold flex items-center">
+                            <i class="ri-emotion-happy-line mr-2 text-rose"></i>
+                            Hôm nay bạn cảm thấy thế nào?
+                        </h2>
+                        <span class="text-sm text-gray-500" id="currentDate">15/06/2025</span>
+                    </div>
+                    <div class="mb-6">
+                        <input type="range" min="1" max="5" value="3"
+                            class="mood-slider w-full h-2 bg-gradient-to-r from-red-400 via-yellow-400 to-green-400 rounded-lg appearance-none cursor-pointer"
+                            id="moodSlider" />
+                        <div class="flex justify-between mt-2 text-sm">
+                            <span class="text-red-500">Rất buồn</span>
+                            <span class="text-yellow-500">Bình thường</span>
+                            <span class="text-green-500">Rất vui</span>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <textarea placeholder="Viết gì đó về cảm xúc của bạn hôm nay..."
+                            class="w-full px-5 py-4 rounded-2xl bg-white/80 border border-rose-200 focus:outline-none focus:ring-3 focus:ring-rose/30 focus:border-rose mb-4 font-sans text-base"
+                            rows="4" id="moodNote"></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button
+                            class="text-gray-600 px-4 py-2 rounded-xl font-medium text-sm hover:bg-gray-100 transition-colors"
+                            id="cancelMood">Hủy</button>
+                        <button
+                            class="bg-gradient-to-r from-[#EF4444] to-[#F87171] text-white px-5 py-2 rounded-xl font-medium text-sm shadow-md hover:shadow-lg hover:scale-105 transition"
+                            id="saveMood">
+                            <i class="ri-check-line mr-1"></i>Lưu cảm xúc
+                        </button>
+                    </div>
+                </div>
+                <!-- Mood Chart -->
+                <div class="glass-dark organic-card p-6 mb-6">
+                    <h2 class="text-xl font-serif font-semibold mb-4 flex items-center">
+                        <i class="ri-line-chart-line mr-2 text-rose"></i>
+                        Lịch sử cảm xúc của bạn
+                    </h2>
+                    <div id="moodChart" class="w-full h-64"></div>
+                </div>
+                <!-- Mood History -->
+                <div class="glass organic-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-serif font-semibold flex items-center">
+                            <i class="ri-book-2-line mr-2 text-rose"></i>
+                            Nhật ký cảm xúc
+                        </h2>
+                        <div class="relative">
+                            <input type="text" placeholder="Tìm kiếm..."
+                                class="pl-8 pr-4 py-2 bg-white/80 border border-rose-200 rounded-full w-48 focus:outline-none focus:ring-2 focus:ring-rose text-sm"
+                                id="searchMood" />
+                            <div class="absolute left-3 top-2.5 w-4 h-4 flex items-center justify-center text-gray-500">
+                                <i class="ri-search-line"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4" id="moodHistory">
+                        <!-- Sample Entry -->
+                        <div class="p-4 bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl border-l-4 border-rose">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="font-serif font-medium text-sm">23/05/2025</p>
+                                <span
+                                    class="text-xs px-3 py-1 rounded-full bg-yellow-100 text-yellow-600 font-medium">Bình
+                                    thường</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Một ngày bình thường, không có gì đặc biệt</p>
+                        </div>
+                        <div class="p-4 bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl border-l-4 border-rose">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="font-serif font-medium text-sm">22/05/2025</p>
+                                <span
+                                    class="text-xs px-3 py-1 rounded-full bg-green-100 text-green-600 font-medium">Vui</span>
+                            </div>
+                            <p class="text-gray-600 text-sm">Khá vui, kiểm tra được 8 điểm.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Sidebar -->
+            <div class="w-80 p-4 hidden xl:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide">
+                <!-- Mini Mood Chart -->
+                <div class="glass organic-card p-4 mb-6">
+                    <h3 class="font-serif font-semibold mb-3 flex items-center">
+                        <i class="ri-emotion-line mr-2 text-rose"></i>Tâm trạng tuần này
+                    </h3>
+                    <div id="miniMoodChart" class="w-full h-40"></div>
+                </div>
+                <!-- Mood Statistics -->
+                <div class="glass organic-card p-4 mb-6">
+                    <h3 class="font-serif font-semibold mb-3 flex items-center">
+                        <i class="ri-pie-chart-line mr-2 text-rose"></i>Thống kê cảm xúc
+                    </h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-2 bg-white/60 rounded-lg">
+                            <span class="text-sm text-green-500">Rất vui</span>
+                            <span class="text-sm font-medium">0 ngày</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-white/60 rounded-lg">
+                            <span class="text-sm text-lime-500">Vui</span>
+                            <span class="text-sm font-medium">2 ngày</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-white/60 rounded-lg">
+                            <span class="text-sm text-yellow-500">Bình thường</span>
+                            <span class="text-sm font-medium">3 ngày</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-white/60 rounded-lg">
+                            <span class="text-sm text-orange-500">Buồn</span>
+                            <span class="text-sm font-medium">2 ngày</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2 bg-white/60 rounded-lg">
+                            <span class="text-sm text-red-500">Rất buồn</span>
+                            <span class="text-sm font-medium">0 ngày</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Content Recommendations -->
+                <div class="glass organic-card p-4 mb-6">
+                    <h3 class="font-serif font-semibold mb-3 flex items-center">
+                        <i class="ri-hearts-line mr-2 text-pink-400"></i>Gợi ý chữa lành
+                    </h3>
+                    <div class="space-y-3">
+                        <div
+                            class="flex items-start space-x-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all cursor-pointer">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white shrink-0">
+                                <i class="ri-headphone-line"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold">Podcast: Bình yên trong tâm hồn</p>
+                                <p class="text-xs text-gray-500 mt-1">20 phút • 4.1k lượt nghe</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-start space-x-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all cursor-pointer">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-gradient-to-br from-rose to-blush-400 flex items-center justify-center text-white shrink-0">
+                                <i class="ri-article-line"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold">Bài viết: Vượt qua nỗi buồn</p>
+                                <p class="text-xs text-gray-500 mt-1">10 phút đọc • 2.3k lượt xem</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full mt-4 py-2.5 text-rose font-semibold bg-white/60 rounded-xl hover:bg-white/80 transition-all">
+                        Xem thêm →
+                    </button>
+                </div>
+                <!-- Premium Features -->
+                <div class="glass organic-card p-4 mb-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-serif font-semibold flex items-center">
+                            <i class="ri-vip-diamond-fill mr-2 text-yellow-500"></i>Gói Premium
+                        </h3>
+                        <span class="text-xs bg-yellow-400/10 text-yellow-600 px-2 py-1 rounded-full font-medium">-20%
+                            Hôm nay</span>
+                    </div>
+                    <div class="space-y-3 mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="ri-lock-unlock-line"></i>
+                            </div>
+                            <p class="text-sm">Truy cập không giới hạn tất cả nội dung</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="ri-message-3-line"></i>
+                            </div>
+                            <p class="text-sm">Tư vấn 1-1 với chuyên gia</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                <i class="ri-advertisement-line"></i>
+                            </div>
+                            <p class="text-sm">Không hiển thị quảng cáo</p>
+                        </div>
+                    </div>
+                    <button onclick="showPremiumModal()"
+                        class="w-full bg-gradient-to-r from-primary to-secondary text-white py-2 rounded-xl font-medium hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all">
+                        Nâng cấp Premium
+                    </button>
+                </div>
+                <!-- Wish Tree -->
+                <div class="glass organic-card p-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-serif font-semibold flex items-center">
+                            <i class="ri-plant-line mr-2 text-rose"></i>Cây điều ước
+                        </h3>
+                        <button
+                            class="text-rose text-sm font-semibold bg-white/60 px-3 py-1 rounded-lg hover:bg-white/80 transition-all">
+                            <a href="wishtree.html">Thêm điều ước</a>
+                        </button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-white/60 rounded-xl border-l-4 border-rose">
+                            <p class="text-sm italic">"Mong tất cả mọi người đều tìm được bình yên trong tâm hồn."</p>
+                            <p class="text-xs text-gray-500 mt-1">- Người dùng ẩn danh</p>
+                        </div>
+                        <div class="p-3 bg-white/60 rounded-xl border-l-4 border-rose">
+                            <p class="text-sm italic">"Hy vọng mình có thể vượt qua kỳ thi sắp tới với sự tự tin."</p>
+                            <p class="text-xs text-gray-500 mt-1">- Lê Hoàng Minh</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Premium Modal -->
+        <div id="premiumModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] hidden">
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl transform transition-all scale-100">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-3">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                            <i class="ri-vip-diamond-fill text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Nâng cấp Premium</h3>
+                    </div>
+                    <button onclick="closePremiumModal()"
+                        class="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                        <i class="ri-close-line text-xl"></i>
+                    </button>
+                </div>
+
+                <p class="text-gray-500 text-sm mb-6 text-center">Chọn gói phù hợp với bạn</p>
+
+                <div class="space-y-3 mb-6">
+                    <div class="package-option border-2 border-gray-100 rounded-xl p-4 cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group"
+                        data-package="12-month">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span
+                                    class="bg-gradient-to-r from-primary to-secondary text-white text-xs px-2 py-1 rounded-full font-medium">TIẾT
+                                    KIỆM 25%</span>
+                                <h4 class="font-semibold text-gray-800">Gói 12 tháng</h4>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs line-through text-gray-400">2.388.000đ</p>
+                                <p class="text-lg font-bold text-primary">1.788.000đ</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500">149.000đ/tháng</p>
+                    </div>
+                    <div class="package-option border-2 border-gray-100 rounded-xl p-4 cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group"
+                        data-package="6-month">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full font-medium">TIẾT
+                                    KIỆM 20%</span>
+                                <h4 class="font-semibold text-gray-800">Gói 6 tháng</h4>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs line-through text-gray-400">1.194.000đ</p>
+                                <p class="text-lg font-bold text-primary">954.000đ</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500">159.000đ/tháng</p>
+                    </div>
+                    <div class="package-option border-2 border-primary bg-primary/5 rounded-xl p-4 cursor-pointer transition-all duration-300 ring-2 ring-primary/30"
+                        data-package="1-month">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-semibold text-gray-800">Gói 1 tháng</h4>
+                            <p class="text-lg font-bold text-primary">199.000đ</p>
+                        </div>
+                        <p class="text-sm text-gray-500">Thanh toán hàng tháng</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="handlePayment('momo')"
+                        class="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-[#A50064] to-[#E91E63] text-white py-3 rounded-xl font-medium transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]">
+                        <i class="ri-shopping-bag-3-fill text-lg"></i>
+                        <span>Thanh toán với MoMo</span>
+                    </button>
+                    <button onclick="handlePayment('zalopay')"
+                        class="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-[#0068FF] to-[#3385FF] text-white py-3 rounded-xl font-medium transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]">
+                        <i class="ri-bank-card-fill text-lg"></i>
+                        <span>Thanh toán với ZaloPay</span>
+                    </button>
+                </div>
+
+                <p class="text-center text-gray-400 text-xs mt-4">
+                    <i class="ri-shield-check-line mr-1"></i>
+                    Bảo mật thanh toán
+                </p>
+            </div>
+        </div>
+        <!-- Success Toast -->
+        <div id="successToast"
+            class="fixed bottom-6 right-6 bg-gradient-to-r from-rose to-rose-400 text-white px-4 py-2 rounded-xl shadow-lg hidden flex items-center space-x-2">
+            <i class="ri-check-line"></i>
+            <span>Cảm xúc đã được lưu!</span>
+        </div>
+        <!-- Emergency Support Button -->
+        <div class="fixed bottom-6 right-6 z-50">
+            <button
+                class="bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-phone-line text-xl"></i>
+                </div>
+            </button>
+        </div>
+    </div>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Update current date
+            const currentDate = document.getElementById('currentDate');
+            if (currentDate) {
+                currentDate.textContent = '15/06/2025';
+            }
+
+            // Mini Mood Chart
+            const miniMoodChartDom = document.getElementById('miniMoodChart');
+            if (miniMoodChartDom) {
+                const miniMoodChart = echarts.init(miniMoodChartDom);
+                const miniMoodOption = {
+                    animation: false,
+                    tooltip: {
+                        trigger: "axis",
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        borderColor: "#9DC183",
+                        textStyle: { color: "#1f2937" },
+                    },
+                    grid: { left: "3%", right: "3%", bottom: "3%", top: "3%", containLabel: true },
+                    xAxis: {
+                        type: "category",
+                        boundaryGap: false,
+                        data: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+                        axisLine: { lineStyle: { color: "#9DC183" } },
+                        axisLabel: { color: "#1f2937" },
+                    },
+                    yAxis: {
+                        type: "value",
+                        min: 1,
+                        max: 5,
+                        interval: 1,
+                        axisLine: { show: false },
+                        axisLabel: { show: false },
+                        splitLine: { lineStyle: { color: "#E8F5E9" } },
+                    },
+                    series: [{
+                        name: "Tâm trạng",
+                        type: "line",
+                        data: [2, 3, 2, 4, 3, 4, 3],
+                        smooth: true,
+                        symbol: "circle",
+                        symbolSize: 8,
+                        lineStyle: { color: "#228B22", width: 3 },
+                        itemStyle: { color: "#228B22" },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: "rgba(34, 139, 34, 0.3)" },
+                                { offset: 1, color: "rgba(34, 139, 34, 0.05)" },
+                            ]),
+                        },
+                    }],
+                };
+                miniMoodChart.setOption(miniMoodOption);
+                window.addEventListener("resize", function () { miniMoodChart.resize(); });
+            }
+
+            // Mood slider and note functionality (assuming handled by main.js)
+            const moodSlider = document.getElementById('moodSlider');
+            const moodNote = document.getElementById('moodNote');
+            const saveMood = document.getElementById('saveMood');
+            const cancelMood = document.getElementById('cancelMood');
+            const successToast = document.getElementById('successToast');
+
+            if (saveMood && cancelMood && successToast) {
+                saveMood.addEventListener('click', function () {
+                    const moodValue = moodSlider.value;
+                    const note = moodNote.value;
+                    // Simulate saving (to be replaced with actual logic in main.js)
+                    console.log(`Mood: ${moodValue}, Note: ${note}`);
+                    successToast.classList.remove('hidden');
+                    setTimeout(() => successToast.classList.add('hidden'), 3000);
+                    moodNote.value = '';
+                });
+                cancelMood.addEventListener('click', function () {
+                    moodNote.value = '';
+                });
+            }
+        });
+    </script>
+
+</html>

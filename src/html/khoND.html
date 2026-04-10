@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngõ Nhỏ - Kho Nội Dung</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#6366f1",
+                        secondary: "#8b5cf6",
+                        warm: "#F5D6BA",
+                        warmLight: "#FDF6EC",
+                        golden: "#E8C87A",
+                        goldenLight: "#FDF8E8",
+                        honey: "#D4A853",
+                    },
+                    fontFamily: {
+                        serif: ["Lora", "serif"],
+                        sans: ["Raleway", "sans-serif"],
+                    },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .glass-dark {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(181, 201, 190, 0.3);
+        }
+
+        .organic-card {
+            border-radius: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .organic-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(168, 197, 218, 0.2);
+        }
+
+        .content-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-card:hover {
+            transform: translateX(8px) scale(1.02);
+        }
+
+        .content-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(181, 201, 190, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .content-item:hover::before {
+            left: 100%;
+        }
+
+        .audio-player {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            border-radius: 16px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .audio-player:hover {
+            box-shadow: 0 8px 24px rgba(34, 139, 34, 0.2);
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-warmLight via-white to-goldenLight min-h-screen">
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="glass shadow-sm sticky top-0 z-50">
+            <div class="flex items-center justify-between px-4 py-2">
+                <div class="flex items-center">
+                    <a href="main.html" class="text-2xl font-['Pacifico'] text-primary mr-8">Ngõ Nhỏ</a>
+                    <div class="relative hidden md:block">
+                        <input type="text" placeholder="Tìm kiếm..."
+                            class="pl-10 pr-4 py-2 bg-gray-100 rounded-full w-80 focus:outline-none focus:ring-2 focus:ring-primary text-sm" />
+                        <div
+                            class="absolute left-3 top-2.5 w-5 h-5 flex items-center justify-center text-gray-500 icon-hover">
+                            <i class="ri-search-line"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <a href="notifications.html"
+                        class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center relative cursor-pointer icon-hover hover:bg-primary/10 hover:text-primary transition-all">
+                        <i class="ri-notification-3-line text-gray-600"></i>
+                        <span
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </a>
+                    <a href="dm.html"
+                        class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer icon-hover hover:bg-primary/10 hover:text-primary transition-all">
+                        <i class="ri-message-3-line text-gray-600"></i>
+                    </a>
+                    <a href="settings.html"
+                        class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cursor-pointer icon-hover hover:bg-primary/10 hover:text-primary transition-all">
+                        <i class="ri-settings-4-line text-gray-600"></i>
+                    </a>
+                    <div class="flex items-center cursor-pointer icon-hover">
+                        <img src="https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474092CAT/anh-avatar-chill-lofi-dep_021444026.jpg"
+                            alt="Avatar" class="w-10 h-10 rounded-full object-cover" />
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content -->
+        <div class="flex-1 flex">
+            <!-- Left Sidebar -->
+            <div
+                class="w-64 bg-white shadow-sm p-4 hidden lg:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide">
+                <nav class="space-y-1">
+                    <a href="main.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-home-5-line"></i>
+                        </div><span>Trang chủ</span>
+                    </a>
+                    <a href="messages.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i
+                                class="ri-mail-lock-line"></i></div><span>Tâm sự ẩn danh</span>
+                    </a>
+                    <a href="chatroom.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-chat-3-line"></i>
+                        </div><span>Phòng trò chuyện</span>
+                    </a>
+                    <a href="mTrack.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-emotion-line"></i>
+                        </div><span>Mood Tracker</span>
+                    </a>
+                    <a href="khoND.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i
+                                class="ri-book-open-line"></i></div><span>Kho nội dung</span>
+                    </a>
+                    <a href="challenges.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-trophy-line"></i>
+                        </div><span>Thử thách</span>
+                    </a>
+                    <a href="futureme.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-mail-line"></i>
+                        </div><span>Hộp thư lắng nghe</span>
+                    </a>
+                    <a href="podcast.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i
+                                class="ri-headphone-line"></i>
+                        </div><span>Podcast</span>
+                    </a>
+                    <a href="wishtree.html"
+                        class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                        <div class="w-6 h-6 flex items-center justify-center icon-hover"><i class="ri-plant-line"></i>
+                        </div><span>Cây điều ước</span>
+                    </a>
+                </nav>
+                <div class="mt-8">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">Phòng chat phổ
+                        biến</h3>
+                    <div class="space-y-1">
+                        <a href="#"
+                            class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span><span>Trầm cảm</span><span
+                                class="ml-auto text-xs text-gray-500">24</span>
+                        </a>
+                        <a href="#"
+                            class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span><span>Áp lực học tập</span><span
+                                class="ml-auto text-xs text-gray-500">18</span>
+                        </a>
+                        <a href="#"
+                            class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span><span>Mất ngủ</span><span
+                                class="ml-auto text-xs text-gray-500">9</span>
+                        </a>
+                        <a href="#"
+                            class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 card-hover">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span><span>Gia đình</span><span
+                                class="ml-auto text-xs text-gray-500">12</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 px-3">Thử thách của bạn
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 rounded-lg p-3 card-hover">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">7 ngày viết nhật ký</span>
+                                <span class="text-xs text-primary">4/7</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div class="bg-primary h-1.5 rounded-full" style="width: 57%"></div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3 card-hover">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium">5 ngày không chê bản thân</span>
+                                <span class="text-xs text-primary">2/5</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-1.5">
+                                <div class="bg-primary h-1.5 rounded-full" style="width: 40%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Middle Content -->
+            <div class="flex-1 max-w-2xl mx-auto px-4 py-6">
+                <div class="text-center mb-12 fade-in">
+                    <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">Kho nội dung chữa lành</h1>
+                    <p class="text-gray-600">Hãy để tâm trí bạn được thư giãn trong không gian đầy chất chữa lành — nơi
+                        âm thanh dịu êm, hình ảnh an tĩnh và những thước phim nhẹ nhàng được chọn lọc kỹ lưỡng để mang
+                        đến cảm giác an yên sâu lắng. Tại đây, bạn không chỉ được lắng nghe mà còn được cảm nhận, được
+                        chữa lành từ những điều giản dị nhất.</p>
+                </div>
+                <!-- Audio Section -->
+                <div class="glass-dark organic-card p-6 mb-6">
+                    <h3 class="font-semibold mb-4">Âm thanh thư giãn</h3>
+                    <div class="space-y-4">
+                        <div class="audio-player content-card content-item mb-4">
+                            <div class="flex items-center space-x-4">
+                                <div
+                                    class="w-14 h-14 rounded-xl bg-warm/20 flex items-center justify-center text-warm shrink-0">
+                                    <i class="ri-headphone-line text-2xl"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-serif font-semibold text-gray-800">Chill buổi sáng</p>
+                                    <p class="text-xs text-gray-500">17:44 phút • Relaxing music</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-card content-item mb-4">
+                            <div class="relative">
+                                <audio controls class="w-full">
+                                    <source src="../../assets/audio/amthanhthiennhien.mp3" type="audio/mpeg">
+                                    Trình duyệt của bạn không hỗ trợ thẻ audio.
+                                </audio>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Âm thanh thiên nhiên</p>
+                            <p class="text-xs text-gray-500">20:30 phút • Nature sounds</p>
+                        </div>
+                        <div class="content-card content-item mb-4">
+                            <div class="relative">
+                                <audio controls class="w-full">
+                                    <source src="../../assets/audio/poscast.mp3" type="audio/mpeg">
+                                    Trình duyệt của bạn không hỗ trợ thẻ audio.
+                                </audio>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Podcast giấc ngủ</p>
+                            <p class="text-xs text-gray-500">28:27 phút • Sleep podcast</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Images Section -->
+                <div class="glass-dark organic-card p-6 mb-6 fade-in" style="animation-delay: 0.2s;">
+                    <h3 class="font-semibold mb-4 text-gray-800">Hình ảnh xoa dịu</h3>
+                    <div id="imageGrid" class="space-y-4">
+                        <div class="audio-player content-card content-item mb-4">
+                            <div class="relative">
+                                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=400&q=80"
+                                    alt="Biển xanh bình yên" class="w-full h-65 object-cover rounded-lg grayscale-[30%] hover:grayscale-0 transition-all duration-500">
+                                <div class="premium-content"></div>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Biển xanh bình yên</p>
+                            <p class="text-xs text-gray-500">Cảnh biển dịu dàng với sóng vỗ</p>
+                        </div>
+                        <div class="audio-player content-card content-item mb-4">
+                            <div class="relative">
+                                <img src="https://datviettour.com.vn/uploads/images/chau-au/phap/danh-thang/canh-dong-hoa-lavender-tour-du-lich-chau-au-2.jpg"
+                                    alt="Cánh đồng hoa lavender" class="w-full h-65 object-cover rounded-lg grayscale-[30%] hover:grayscale-0 transition-all duration-500">
+                                <div class="premium-content"></div>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Cánh đồng hoa lavender</p>
+                            <p class="text-xs text-gray-500">Hương thơm nhẹ nhàng của mùa hè</p>
+                        </div>
+                        <div class="audio-player content-card content-item mb-4">
+                            <div class="relative">
+                                <img src="https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_11_29_638368775166500183_hinh-nen-bau-troi-dem.jpg"
+                                    alt="Bầu trời sao đêm" class="w-full h-65 object-cover rounded-lg grayscale-[30%] hover:grayscale-0 transition-all duration-500">
+                                <div class="premium-content"></div>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Bầu trời sao đêm</p>
+                            <p class="text-xs text-gray-500">Vẻ đẹp huyền bí của vũ trụ</p>
+                        </div>
+                        <div class="audio-player content-card content-item mb-4 hidden">
+                            <div class="relative">
+                                <img src="https://img.pikbest.com/ai/illus_our/20230427/8e976a6a6a7149f3a4f8ae7f35a42562.jpg!f305cw"
+                                    alt="Rừng sương mù" class="w-full h-65 object-cover rounded-lg grayscale-[30%] hover:grayscale-0 transition-all duration-500">
+                                <div class="premium-content"></div>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Rừng sương mù</p>
+                            <p class="text-xs text-gray-500">Bình yên trong không gian tĩnh lặng</p>
+                        </div>
+                        <div class="audio-player content-card content-item mb-4 hidden premium-content">
+                            <div class="relative">
+                                <img src="https://ik.imagekit.io/tvlk/blog/2022/02/diem-ngam-hoang-hon-3.jpg?tr=q-70,c-at_max,w-500,h-300,dpr-2"
+                                    alt="Hoàng hôn trên núi" class="w-full h-65 object-cover rounded-lg">
+                            </div>
+                            <p class="text-sm font-medium mt-2">Hoàng hôn trên núi</p>
+                            <p class="text-xs text-gray-500">Sắc màu ấm áp của hoàng hôn • Premium</p>
+                        </div>
+                        <div class="audio-player content-card content-item mb-4 hidden">
+                            <div class="relative">
+                                <img src="https://static-images.vnncdn.net/vps_images_publish/000001/000003/2024/8/8/no-luc-bao-ton-cac-giong-sen-quy-tai-hop-tac-xa-sen-que-bac-1337.jpg?width=500&s=MuDrFxwvnrmUGIQeWYAlKQ"
+                                    alt="Hoa sen trên hồ" class="w-full h-65 object-cover rounded-lg">
+                                <div class="premium-content"></div>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Hoa sen trên hồ</p>
+                            <p class="text-xs text-gray-500">Sự thuần khiết và thanh tịnh</p>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <button id="viewMoreImages" class="text-primary text-sm font-medium btn-scale-outline">Xem
+                            thêm</button>
+                    </div>
+                </div>
+                <!-- Videos Section -->
+                <div class="glass-dark organic-card p-6 mb-6 fade-in" style="animation-delay: 0.4s;">
+                    <h3 class="font-semibold mb-4 text-gray-800">Video thư giãn</h3>
+                    <div class="space-y-4">
+                        <div class="audio-player content-card content-item mb-4">
+                            <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-lg">
+                                <iframe class="absolute top-0 left-0 w-full h-full"
+                                    src="https://www.youtube.com/embed/jfKfPfyJRdk" title="Lofi Hip Hop" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Lofi Hip Hop - Thư giãn</p>
+                            <p class="text-xs text-gray-500">24/7 · Lofi Girl</p>
+                        </div>
+                        <div class="content-card content-item mb-4">
+                            <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-lg">
+                                <iframe class="absolute top-0 left-0 w-full h-full"
+                                    src="https://www.youtube.com/embed/inpok4MKVLM" title="Thiền 10 phút"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Thiền 10 phút</p>
+                            <p class="text-xs text-gray-500">10 phút · Meditation</p>
+                        </div>
+                        <div class="content-card content-item mb-4">
+                            <div class="relative pb-[56.25%] h-0 overflow-hidden rounded-lg">
+                                <iframe class="absolute top-0 left-0 w-full h-full"
+                                    src="https://www.youtube.com/embed/hlWiI4xVXKY" title="Âm thanh thiên nhiên"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowfullscreen></iframe>
+                            </div>
+                            <p class="text-sm font-medium mt-2">Âm thanh thiên nhiên</p>
+                            <p class="text-xs text-gray-500">3 giờ · Nature Sounds</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Sidebar -->
+            <div class="w-80 p-4 hidden lg:block h-[calc(100vh-64px)] sticky top-16 overflow-y-auto scrollbar-hide">
+                <!-- Mood Tracker Mini -->
+                <div class="glass organic-card p-4 mb-6">
+                    <h3 class="font-serif font-semibold mb-3 flex items-center">
+                        <i class="ri-emotion-line mr-2 text-warm"></i>Tâm trạng tuần này
+                    </h3>
+                    <div id="miniMoodChart" class="w-full h-40"></div>
+                </div>
+
+                <!-- Wish Tree -->
+                <div class="glass organic-card p-4 mb-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-serif font-semibold flex items-center">
+                            <i class="ri-plant-line mr-2 text-warm"></i>Cây điều ước
+                        </h3>
+                        <button
+                            class="text-warm text-sm font-semibold bg-white/60 px-3 py-1 rounded-lg hover:bg-white/80 transition-all">
+                            <a href="wishtree.html">Thêm điều ước</a>
+                        </button>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-white/60 rounded-xl border-l-4 border-warm">
+                            <p class="text-sm italic">"Mong tất cả mọi người đều tìm được bình yên trong tâm hồn."</p>
+                            <p class="text-xs text-gray-500 mt-1">- Người dùng ẩn danh</p>
+                        </div>
+                        <div class="p-3 bg-white/60 rounded-xl border-l-4 border-warm">
+                            <p class="text-sm italic">"Hy vọng mình có thể vượt qua kỳ thi sắp tới với sự tự tin."</p>
+                            <p class="text-xs text-gray-500 mt-1">- Lê Hoàng Minh</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Challenges -->
+                <div class="glass organic-card p-4 mb-6">
+                    <h3 class="font-serif font-semibold mb-3 flex items-center">
+                        <i class="ri-trophy-fill mr-2 text-yellow-500"></i>Thử thách đang tham gia
+                    </h3>
+                    <div class="space-y-3">
+                        <div
+                            class="flex items-center space-x-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all cursor-pointer">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-gradient-to-br from-warm to-golden flex items-center justify-center text-white">
+                                <i class="ri-book-read-line text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold">7 ngày viết nhật ký</p>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                    <div class="bg-gradient-to-r from-warm to-golden h-1.5 rounded-full"
+                                        style="width: 57%"></div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-warm">4/7</span>
+                        </div>
+                        <div
+                            class="flex items-center space-x-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all cursor-pointer">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center text-white">
+                                <i class="ri-mental-health-line text-xl"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm font-semibold">5 ngày không chê bản thân</p>
+                                <div class="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                    <div class="bg-gradient-to-r from-purple-400 to-pink-400 h-1.5 rounded-full"
+                                        style="width: 40%"></div>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold text-purple-500">2/5</span>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full mt-4 py-2.5 text-warm font-semibold bg-white/60 rounded-xl hover:bg-white/80 transition-all">
+                        Xem tất cả thử thách →
+                    </button>
+                </div>
+
+                <!-- Active Chat Rooms -->
+                <div class="glass organic-card p-4 mb-6">
+                    <h3 class="font-serif font-semibold mb-3 flex items-center">
+                        <i class="ri-chat-3-line mr-2 text-warm"></i>Phòng chat đang hoạt động
+                    </h3>
+                    <div class="space-y-2">
+                        <div
+                            class="flex items-center justify-between p-2 rounded-xl hover:bg-white/60 transition-all cursor-pointer">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span class="text-sm">Trầm cảm</span>
+                            </div>
+                            <span class="text-xs bg-warm/10 text-warm px-2 py-0.5 rounded-full">24 người</span>
+                        </div>
+                        <div
+                            class="flex items-center justify-between p-2 rounded-xl hover:bg-white/60 transition-all cursor-pointer">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span class="text-sm">Áp lực học tập</span>
+                            </div>
+                            <span class="text-xs bg-warm/10 text-warm px-2 py-0.5 rounded-full">18 người</span>
+                        </div>
+                        <div
+                            class="flex items-center justify-between p-2 rounded-xl hover:bg-white/60 transition-all cursor-pointer">
+                            <div class="flex items-center space-x-2">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span class="text-sm">Mất ngủ</span>
+                            </div>
+                            <span class="text-xs bg-warm/10 text-warm px-2 py-0.5 rounded-full">9 người</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Recommendations -->
+                <div class="glass organic-card p-4 mb-6">
+                    <h3 class="font-serif font-semibold mb-3 flex items-center">
+                        <i class="ri-hearts-line mr-2 text-pink-400"></i>Nội dung chữa lành
+                    </h3>
+                    <div class="space-y-3">
+                        <div
+                            class="flex items-start space-x-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all cursor-pointer">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white shrink-0">
+                                <i class="ri-headphone-line"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold">Podcast: Học cách yêu thương bản thân</p>
+                                <p class="text-xs text-gray-500 mt-1">15 phút • 3.2k lượt nghe</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-start space-x-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all cursor-pointer">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-gradient-to-br from-warm to-golden flex items-center justify-center text-white shrink-0">
+                                <i class="ri-article-line"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold">Bài viết: 5 cách đối phó với lo âu</p>
+                                <p class="text-xs text-gray-500 mt-1">8 phút đọc • 1.5k lượt xem</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-start space-x-3 p-3 bg-white/60 rounded-xl hover:bg-white/80 transition-all cursor-pointer">
+                            <div
+                                class="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center text-white shrink-0">
+                                <i class="ri-music-2-line"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold">Nhạc: Thiền định buổi sáng</p>
+                                <p class="text-xs text-gray-500 mt-1">30 phút • 5.7k lượt nghe</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button
+                        class="w-full mt-4 py-2.5 text-warm font-semibold bg-white/60 rounded-xl hover:bg-white/80 transition-all">
+                        Xem thêm →
+                    </button>
+                </div>
+
+                <!-- Premium Features -->
+                <div class="glass organic-card p-4 mb-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="font-serif font-semibold flex items-center">
+                            <i class="ri-vip-diamond-fill mr-2 text-yellow-500"></i>Gói Premium
+                        </h3>
+                        <span class="text-xs bg-yellow-400/10 text-yellow-600 px-2 py-1 rounded-full font-medium">-20%
+                            Hôm nay</span>
+                    </div>
+                    <div class="space-y-3 mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary icon-hover">
+                                <i class="ri-lock-unlock-line"></i>
+                            </div>
+                            <p class="text-sm">Truy cập không giới hạn tất cả nội dung</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary icon-hover">
+                                <i class="ri-message-3-line"></i>
+                            </div>
+                            <p class="text-sm">Tư vấn 1-1 với chuyên gia</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary icon-hover">
+                                <i class="ri-advertisement-line"></i>
+                            </div>
+                            <p class="text-sm">Không hiển thị quảng cáo</p>
+                        </div>
+                    </div>
+                    <button onclick="showPremiumModal()"
+                        class="w-full bg-gradient-to-r from-primary to-secondary text-white py-2 rounded-button font-medium btn-scale">Nâng
+                        cấp Premium</button>
+                </div>
+            </div>
+        </div>
+        <!-- Premium Modal -->
+        <div id="premiumModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] hidden">
+            <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl transform transition-all scale-100">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-3">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                            <i class="ri-vip-diamond-fill text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Nâng cấp Premium</h3>
+                    </div>
+                    <button onclick="closePremiumModal()"
+                        class="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                        <i class="ri-close-line text-xl"></i>
+                    </button>
+                </div>
+
+                <p class="text-gray-500 text-sm mb-6 text-center">Chọn gói phù hợp với bạn</p>
+
+                <div class="space-y-3 mb-6">
+                    <div class="package-option border-2 border-gray-100 rounded-xl p-4 cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group"
+                        data-package="12-month">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span
+                                    class="bg-gradient-to-r from-primary to-secondary text-white text-xs px-2 py-1 rounded-full font-medium">TIẾT
+                                    KIỆM 25%</span>
+                                <h4 class="font-semibold text-gray-800">Gói 12 tháng</h4>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs line-through text-gray-400">2.388.000đ</p>
+                                <p class="text-lg font-bold text-primary">1.788.000đ</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500">149.000đ/tháng</p>
+                    </div>
+                    <div class="package-option border-2 border-gray-100 rounded-xl p-4 cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all duration-300 group"
+                        data-package="6-month">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center space-x-2">
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full font-medium">TIẾT
+                                    KIỆM 20%</span>
+                                <h4 class="font-semibold text-gray-800">Gói 6 tháng</h4>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs line-through text-gray-400">1.194.000đ</p>
+                                <p class="text-lg font-bold text-primary">954.000đ</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500">159.000đ/tháng</p>
+                    </div>
+                    <div class="package-option border-2 border-primary bg-primary/5 rounded-xl p-4 cursor-pointer transition-all duration-300 ring-2 ring-primary/30"
+                        data-package="1-month">
+                        <div class="flex items-center justify-between mb-2">
+                            <h4 class="font-semibold text-gray-800">Gói 1 tháng</h4>
+                            <p class="text-lg font-bold text-primary">199.000đ</p>
+                        </div>
+                        <p class="text-sm text-gray-500">Thanh toán hàng tháng</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <button onclick="handlePayment('momo')"
+                        class="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-[#A50064] to-[#E91E63] text-white py-3 rounded-xl font-medium transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]">
+                        <i class="ri-shopping-bag-3-fill text-lg"></i>
+                        <span>Thanh toán với MoMo</span>
+                    </button>
+                    <button onclick="handlePayment('zalopay')"
+                        class="w-full flex items-center justify-center space-x-3 bg-gradient-to-r from-[#0068FF] to-[#3385FF] text-white py-3 rounded-xl font-medium transition-all duration-300 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]">
+                        <i class="ri-bank-card-fill text-lg"></i>
+                        <span>Thanh toán với ZaloPay</span>
+                    </button>
+                </div>
+
+                <p class="text-center text-gray-400 text-xs mt-4">
+                    <i class="ri-shield-check-line mr-1"></i>
+                    Bảo mật thanh toán
+                </p>
+            </div>
+        </div>
+        <!-- Emergency Support Button -->
+        <div class="fixed bottom-6 right-6 z-50">
+            <button
+                class="bg-red-500 hover:bg-red-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center btn-scale">
+                <div class="w-6 h-6 flex items-center justify-center icon-hover">
+                    <i class="ri-phone-line text-xl"></i>
+                </div>
+            </button>
+        </div>
+    </div>
+    <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // View More Images
+            const viewMoreButton = document.getElementById('viewMoreImages');
+            const imageGrid = document.getElementById('imageGrid');
+            const hiddenImages = imageGrid.querySelectorAll('.card-hover.hidden');
+            let imagesShown = 0;
+
+            if (viewMoreButton && hiddenImages.length > 0) {
+                viewMoreButton.addEventListener('click', function () {
+                    for (let i = imagesShown; i < imagesShown + 3 && i < hiddenImages.length; i++) {
+                        hiddenImages[i].classList.remove('hidden');
+                        hiddenImages[i].classList.add('fade-in');
+                    }
+                    imagesShown += 3;
+                    if (imagesShown >= hiddenImages.length) {
+                        viewMoreButton.style.display = 'none';
+                    }
+                });
+            }
+
+            // Mini Mood Chart
+            const miniMoodChartDom = document.getElementById('miniMoodChart');
+            if (miniMoodChartDom) {
+                const miniMoodChart = echarts.init(miniMoodChartDom);
+                const miniMoodOption = {
+                    animation: false,
+                    tooltip: {
+                        trigger: "axis",
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                        borderColor: "#e2e8f0",
+                        textStyle: { color: "#1f2937" },
+                    },
+                    grid: { left: "3%", right: "3%", bottom: "3%", top: "3%", containLabel: true },
+                    xAxis: {
+                        type: "category",
+                        boundaryGap: false,
+                        data: ["T2", "T3", "T4", "T5", "T6", "T7", "CN"],
+                        axisLine: { lineStyle: { color: "#e2e8f0" } },
+                        axisLabel: { color: "#1f2937" },
+                    },
+                    yAxis: {
+                        type: "value",
+                        min: 1,
+                        max: 5,
+                        interval: 1,
+                        axisLine: { show: false },
+                        axisLabel: { show: false },
+                        splitLine: { lineStyle: { color: "#e2e8f0" } },
+                    },
+                    series: [{
+                        name: "Tâm trạng",
+                        type: "line",
+                        data: [2, 3, 2, 4, 3, 4, 3],
+                        smooth: true,
+                        symbol: "none",
+                        lineStyle: { color: "#6366f1", width: 3 },
+                        areaStyle: {
+                            color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                                { offset: 0, color: "rgba(99, 102, 241, 0.3)" },
+                                { offset: 1, color: "rgba(99, 102, 241, 0.1)" },
+                            ]),
+                        },
+                    }],
+                };
+                miniMoodChart.setOption(miniMoodOption);
+                window.addEventListener("resize", function () { miniMoodChart.resize(); });
+            }
+        });
+    </script>
+</body>
+
+</html>

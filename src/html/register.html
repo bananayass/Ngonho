@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Property | Khôi phục mật khẩu</title>
+
+    <!-- Google Font -->
+    <link href='https://fonts.googleapis.com/css?family=Vollkorn' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: "#6366f1", secondary: "#8b5cf6" },
+                    borderRadius: {
+                        none: "0px",
+                        sm: "4px",
+                        DEFAULT: "8px",
+                        md: "12px",
+                        lg: "16px",
+                        xl: "20px",
+                        "2xl": "24px",
+                        "3xl": "32px",
+                        full: "9999px",
+                        button: "8px",
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Custom Styles -->
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+        }
+        .custom-checkbox {
+            position: relative;
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .custom-checkbox.checked {
+            background-color: #6366f1;
+            border-color: #6366f1;
+        }
+        .custom-checkbox.checked::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .btn-scale {
+            transition: all 0.3s ease;
+        }
+        .btn-scale:hover {
+            transform: scale(1.05);
+            background-color: #585beb;
+        }
+    </style>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="bg-gray-50">
+    <section id="aa-signin">
+        <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 relative">
+            <div class="absolute inset-0 z-0">
+                <img src="https://readdy.ai/api/search-image?query=serene%20meditation%20landscape%20with%20soft%20pastel%20colors%2C%20gentle%20nature%20elements%20like%20floating%20cherry%20blossoms%20and%20calm%20water%20ripples%2C%20dreamy%20and%20peaceful%20atmosphere%2C%20mental%20wellness%20theme%2C%20high%20quality%20photorealistic&width=1920&height=1080&seq=login_bg&orientation=landscape" alt="Background" class="w-full h-full object-cover opacity-50">
+                <div class="absolute inset-0 bg-white/30 backdrop-blur-sm"></div>
+            </div>
+            <div class="max-w-md w-full space-y-8 relative z-10">
+                <div class="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20">
+                    <div class="text-center">
+                        <h1 class="font-['Pacifico'] text-4xl text-primary mb-2">Ngõ Nhỏ</h1>
+                        <h2 class="text-2xl font-bold text-gray-900">Khôi phục mật khẩu</h2>
+                        <p class="mt-2 text-sm text-gray-600">Nhập thông tin để đặt lại mật khẩu</p>
+                    </div>
+                    <form class="mt-8 space-y-6" action="#" method="POST">
+                        <div class="space-y-4">
+                            <div>
+                                <label for="username" class="block text-sm font-medium text-gray-700">Tên</label>
+                                <div class="mt-1 relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <i class="ri-user-line"></i>
+                                    </div>
+                                    <input id="username" name="username" type="text" required class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm" placeholder="Tên của bạn">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                <div class="mt-1 relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <i class="ri-mail-line"></i>
+                                    </div>
+                                    <input id="email" name="email" type="email" required class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm" placeholder="you@example.com">
+                                </div>
+                            </div>
+                            <div class="flex space-x-4">
+                                <div class="flex-1">
+                                    <label for="code" class="block text-sm font-medium text-gray-700">Mã xác nhận</label>
+                                    <div class="mt-1 relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                            <i class="ri-shield-keyhole-line"></i>
+                                        </div>
+                                        <input id="code" name="code" type="text" required class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm" placeholder="Nhập mã">
+                                    </div>
+                                </div>
+                                <div class="flex items-end">
+                                    <button type="button" onclick="sendCode()" class="py-2.5 px-4 border border-transparent text-sm font-medium rounded-button text-white bg-secondary btn-scale focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary">Gửi mã</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="new-password" class="block text-sm font-medium text-gray-700">Mật khẩu mới</label>
+                                <div class="mt-1 relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <i class="ri-lock-line"></i>
+                                    </div>
+                                    <input id="new-password" name="new-password" type="password" required class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm" placeholder="••••••••">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                        <input type="checkbox" id="show-new-password" class="hidden" onclick="togglePassword('new-password')">
+                                        <label for="show-new-password" class="cursor-pointer text-gray-400 hover:text-gray-600">
+                                            <i class="ri-eye-line" id="eye-icon-new-password"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="confirm-password" class="block text-sm font-medium text-gray-700">Xác nhận mật khẩu mới</label>
+                                <div class="mt-1 relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                                        <i class="ri-lock-line"></i>
+                                    </div>
+                                    <input id="confirm-password" name="confirm-password" type="password" required class="appearance-none block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent sm:text-sm" placeholder="••••••••">
+                                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                        <input type="checkbox" id="show-confirm-password" class="hidden" onclick="togglePassword('confirm-password')">
+                                        <label for="show-confirm-password" class="cursor-pointer text-gray-400 hover:text-gray-600">
+                                            <i class="ri-eye-line" id="eye-icon-confirm-password"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" class="group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-medium rounded-button text-white bg-primary btn-scale focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                                <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                    <i class="ri-key-2-line"></i>
+                                </span>
+                                Đặt lại mật khẩu
+                            </button>
+                        </div>
+                    </form>
+                    <p class="mt-8 text-center text-sm text-gray-600">
+                        Quay lại?
+                        <a href="signin.html" class="font-medium text-primary hover:text-primary/80">Đăng nhập</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- jQuery library -->
+    <script src="../js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.js"></script>
+    <!-- slick slider -->
+    <script type="text/javascript" src="../js/slick.js"></script>
+    <!-- Price picker slider -->
+    <script type="text/javascript" src="../js/nouislider.js"></script>
+    <!-- mixit slider -->
+    <script type="text/javascript" src="js/jquery.mixitup.js"></script>
+    <!-- Add fancyBox -->
+    <script type="text/javascript" src="js/jquery.fancybox.pack.js"></script>
+    <!-- Custom js -->
+    <script src="../js/custom.js"></script>
+    <script src="../js/dangnhap.js"></script>
+    <script>
+        handleForgotPassword();
+    </script>
+</body>
+</html>
