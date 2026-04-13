@@ -520,4 +520,280 @@ document.addEventListener("DOMContentLoaded", function () {
       document.body.style.overflow = "";
     }
   };
+
+  // ========== JOURNALING FEATURES ==========
+  const morningPrompts = [
+    "Hôm nay bạn cảm thấy biết ơn điều gì?",
+    "Một điều bạn muốn hoàn thành hôm nay là gì?",
+    "Điều gì khiến bạn cảm thấy hy vọng?",
+    "Nếu có một điều bạn có thể thay đổi hôm nay, đó là gì?",
+    "Điều gì mang lại năng lượng tích cực cho bạn?",
+    "Bạn đang mong chờ điều gì hôm nay?",
+    "Một điều bạn tự hào về bản thân là gì?"
+  ];
+
+  const eveningPrompts = [
+    "Điều gì khiến bạn mỉm cười hôm nay?",
+    "Bạn đã học được điều gì mới?",
+    "Điều gì đã vượt qua kỳ vọng của bạn?",
+    "Ai là người bạn muốn cảm ơn hôm nay?",
+    "Một khoảnh khắc đẹp trong ngày của bạn là gì?",
+    "Điều gì bạn có thể làm tốt hơn ngày mai?",
+    "Một điều bạn thích về bản thân hôm nay?"
+  ];
+
+  let currentJournalTab = 'morning';
+  let recognition = null;
+  let isRecording = false;
+
+  window.initJournal = function() {
+    updatePrompt();
+    loadJournalEntry();
+    loadGratitude();
+    updateStreak();
+    loadJournalHistory();
+
+    const textarea = document.getElementById('journal-textarea');
+    if (textarea) {
+      textarea.addEventListener('input', function() {
+        const charCount = document.getElementById('char-count');
+        if (charCount) charCount.textContent = this.value.length + ' ký tự';
+      });
+    }
+
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      const voiceBtn = document.getElementById('voice-btn');
+      if (voiceBtn) {
+        voiceBtn.title = 'Trình duyệt không hỗ trợ nhận dạng giọng nói';
+        voiceBtn.disabled = true;
+      }
+    }
+  };
+
+  window.switchJournalTab = function(tab) {
+    currentJournalTab = tab;
+    document.querySelectorAll('.journal-tab').forEach(el => {
+      el.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+      el.classList.add('text-white');
+    });
+    const activeTab = document.getElementById('tab-' + tab);
+    if (activeTab) {
+      activeTab.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+      activeTab.classList.remove('text-white');
+    }
+    loadJournalEntry();
+    updatePrompt();
+  };
+
+  window.updatePrompt = function() {
+    const today = new Date();
+    const dayOfMonth = today.getDate();
+    const prompts = currentJournalTab === 'morning' ? morningPrompts : eveningPrompts;
+    const promptIndex = (dayOfMonth - 1) % prompts.length;
+    const promptEl = document.getElementById('current-prompt');
+    if (promptEl) promptEl.textContent = prompts[promptIndex];
+  };
+
+  window.saveJournalEntry = function() {
+    const textarea = document.getElementById('journal-textarea');
+    const content = textarea ? textarea.value : '';
+    if (!content.trim()) {
+      alert('Vui lòng viết gì đó trước khi lưu!');
+      return;
+    }
+    const entry = {
+      date: new Date().toISOString().split('T')[0],
+      type: currentJournalTab,
+      content: content,
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem('ngo_nho_journal_' + currentJournalTab, JSON.stringify(entry));
+
+    // Save to history
+    const history = JSON.parse(localStorage.getItem('ngo_nho_journal_history') || '[]');
+    history.unshift(entry);
+    if (history.length > 30) history.pop(); // Keep last 30 entries
+    localStorage.setItem('ngo_nho_journal_history', JSON.stringify(history));
+
+    loadJournalHistory();
+    alert('Đã lưu nhật ký!');
+  };
+
+  window.loadJournalEntry = function() {
+    const key = 'ngo_nho_journal_' + currentJournalTab;
+    const saved = localStorage.getItem(key);
+    const textarea = document.getElementById('journal-textarea');
+    const charCount = document.getElementById('char-count');
+    if (saved && textarea) {
+      const entry = JSON.parse(saved);
+      const today = new Date().toISOString().split('T')[0];
+      if (entry.date === today) {
+        textarea.value = entry.content;
+        if (charCount) charCount.textContent = entry.content.length + ' ký tự';
+      } else {
+        textarea.value = '';
+        if (charCount) charCount.textContent = '0 ký tự';
+      }
+    }
+  };
+
+  window.saveGratitude = function() {
+    const g1 = document.getElementById('gratitude-1')?.value || '';
+    const g2 = document.getElementById('gratitude-2')?.value || '';
+    const g3 = document.getElementById('gratitude-3')?.value || '';
+    if (!g1.trim() && !g2.trim() && !g3.trim()) {
+      alert('Vui lòng nhập ít nhất một điều bạn biết ơn!');
+      return;
+    }
+    const entry = {
+      date: new Date().toISOString().split('T')[0],
+      items: [g1, g2, g3].filter(i => i.trim()),
+      timestamp: new Date().toISOString()
+    };
+    localStorage.setItem('ngo_nho_gratitude', JSON.stringify(entry));
+    updateStreak();
+    alert('Đã lưu lời biết ơn!');
+  };
+
+  window.loadGratitude = function() {
+    const saved = localStorage.getItem('ngo_nho_gratitude');
+    if (saved) {
+      const entry = JSON.parse(saved);
+      const today = new Date().toISOString().split('T')[0];
+      if (entry.date === today) {
+        const g1 = document.getElementById('gratitude-1');
+        const g2 = document.getElementById('gratitude-2');
+        const g3 = document.getElementById('gratitude-3');
+        if (g1) g1.value = entry.items[0] || '';
+        if (g2) g2.value = entry.items[1] || '';
+        if (g3) g3.value = entry.items[2] || '';
+      }
+    }
+  };
+
+  window.updateStreak = function() {
+    const gratitudeLog = JSON.parse(localStorage.getItem('ngo_nho_gratitude_log') || '[]');
+    const today = new Date().toISOString().split('T')[0];
+    if (!gratitudeLog.includes(today)) {
+      gratitudeLog.push(today);
+      localStorage.setItem('ngo_nho_gratitude_log', JSON.stringify(gratitudeLog));
+    }
+    let streak = 0;
+    const sortedDates = gratitudeLog.sort().reverse();
+    for (let i = 0; i < sortedDates.length; i++) {
+      const checkDate = new Date();
+      checkDate.setDate(checkDate.getDate() - i);
+      const expectedDate = checkDate.toISOString().split('T')[0];
+      if (sortedDates.includes(expectedDate)) {
+        streak++;
+      } else {
+        if (i === 0) continue;
+        break;
+      }
+    }
+    const streakEl = document.getElementById('streak-count');
+    if (streakEl) streakEl.textContent = streak;
+  };
+
+  window.loadJournalHistory = function() {
+    const historyContainer = document.getElementById('journal-history');
+    if (!historyContainer) return;
+
+    const history = JSON.parse(localStorage.getItem('ngo_nho_journal_history') || '[]');
+
+    if (history.length === 0) {
+      historyContainer.innerHTML = '<p class="text-gray-400 text-sm text-center py-4">Chưa có nhật ký nào</p>';
+      return;
+    }
+
+    historyContainer.innerHTML = history.slice(0, 10).map(entry => {
+      const date = new Date(entry.date);
+      const formattedDate = date.toLocaleDateString('vi-VN', { day: 'numeric', month: 'short' });
+      const typeIcon = entry.type === 'morning' ? '☀️' : '🌙';
+      const preview = entry.content.substring(0, 50) + (entry.content.length > 50 ? '...' : '');
+
+      return `
+        <div class="journal-history-item p-3 bg-white rounded-lg border border-gray-100 hover:border-primary/30 transition-all cursor-pointer" onclick="showJournalDetail('${entry.timestamp}')">
+          <div class="flex justify-between items-start mb-1">
+            <span class="text-xs text-primary font-medium">${typeIcon} ${entry.type === 'morning' ? 'Sáng' : 'Tối'}</span>
+            <span class="text-xs text-gray-400">${formattedDate}</span>
+          </div>
+          <p class="text-sm text-gray-600 line-clamp-2">${preview}</p>
+        </div>
+      `;
+    }).join('');
+
+    // Add fade-in animation
+    if (window.anime) {
+      anime({
+        targets: '.journal-history-item',
+        opacity: [0, 1],
+        translateY: [10, 0],
+        duration: 400,
+        easing: 'easeOutQuad',
+        delay: anime.stagger(50)
+      });
+    }
+  };
+
+  window.showJournalDetail = function(timestamp) {
+    const history = JSON.parse(localStorage.getItem('ngo_nho_journal_history') || '[]');
+    const entry = history.find(e => e.timestamp === timestamp);
+    if (entry) {
+      alert(`${entry.type === 'morning' ? '☀️ Buổi sáng' : '🌙 Buổi tối'} - ${entry.date}\n\n${entry.content}`);
+    }
+  };
+
+  window.toggleVoiceInput = function() {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
+
+  window.startRecording = function() {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert('Trình duyệt không hỗ trợ. Dùng Chrome/Edge.');
+      return;
+    }
+    recognition = new SpeechRecognition();
+    recognition.lang = 'vi-VN';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.onstart = function() {
+      isRecording = true;
+      const voiceBtn = document.getElementById('voice-btn');
+      if (voiceBtn) {
+        voiceBtn.classList.add('bg-red-500', 'text-white');
+        voiceBtn.innerHTML = '<i class="ri-stop-line"></i>';
+      }
+    };
+    recognition.onresult = function(event) {
+      let transcript = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+      }
+      const textarea = document.getElementById('journal-textarea');
+      if (textarea) textarea.value += transcript;
+      const charCount = document.getElementById('char-count');
+      if (charCount) charCount.textContent = textarea.value.length + ' ký tự';
+    };
+    recognition.onend = function() { stopRecording(); };
+    recognition.start();
+  };
+
+  window.stopRecording = function() {
+    if (recognition) recognition.stop();
+    isRecording = false;
+    const voiceBtn = document.getElementById('voice-btn');
+    if (voiceBtn) {
+      voiceBtn.classList.remove('bg-red-500', 'text-white');
+      voiceBtn.innerHTML = '<i class="ri-mic-line"></i>';
+    }
+  };
+
+  // Initialize journal on page load
+  initJournal();
 });
